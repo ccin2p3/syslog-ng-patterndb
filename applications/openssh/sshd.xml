@@ -477,9 +477,34 @@
           <pattern>error: PAM: Authentication failure for @ESTRING:.user: @from @IPvANY:.dict.Rhost@</pattern>
         </patterns>
       </rule>
+      
+      <!-- this should probably go to a specific pam_unix.pdb as it has nothing to do with
+           ssh, nor vsftpd for that matter -->
+      <rule provider="wernli@in2p3.fr" id='f5216358-8524-4e23-a0d5-a6c6859ff7fd' class='system'>
+        <patterns>
+          <pattern>pam_unix(sshd:auth): check pass; user unknown</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="sshd">pam_unix(sshd:auth): check pass; user unknown</test_message>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
 
     </rules>
     
   </ruleset>
   
 </patterndb>
+
+<!-- vim:ts=2:sts=2:sw=2:expandtab:ft=xml
+ -->
