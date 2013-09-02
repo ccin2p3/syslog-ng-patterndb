@@ -120,16 +120,6 @@
           <tag>secevt</tag>
         </tags>
       </rule>
-      <rule provider="patterndb" id="39e469dd-498e-45e8-a6f2-3c7034af8ed3" class="system">
-        <patterns>
-          <pattern>pam_unix(proftpd:auth): authentication failure;</pattern>
-        </patterns>
-        <examples>
-          <example>
-            <test_message program="proftpd">pam_unix(proftpd:auth): authentication failure; logname= uid=0 euid=0 tty=/dev/ftpd6846 ruser=czanik rhost=::ffff:192.168.2.179  user=czanik</test_message>
-          </example>
-        </examples>
-      </rule>
       <rule provider="patterndb" id="0ec3466d-50b6-4b4f-a885-62091bcf1c65" class="system">
         <patterns>
           <pattern>@ESTRING:: @(@ESTRING::[@@ESTRING:usracct.device:]@) - USER @ESTRING:usracct.username: @(Login failed): Incorrect password.</pattern>
@@ -153,16 +143,6 @@
           <tag>usracct</tag>
           <tag>secevt</tag>
         </tags>
-      </rule>
-      <rule provider="patterndb" id="2f05f38a-ba0f-483d-b340-d44ac2de5c1b" class="system">
-        <patterns>
-          <pattern>pam_unix(proftpd:session): session</pattern>
-        </patterns>
-        <examples>
-          <example>
-            <test_message program="proftpd">pam_unix(proftpd:session): session opened for user czanik by (uid=0)</test_message>
-          </example>
-        </examples>
       </rule>
       <rule provider="patterndb" id="f5bd9439-fdc7-40c7-870f-60731c77f7a2" class="system">
         <patterns>

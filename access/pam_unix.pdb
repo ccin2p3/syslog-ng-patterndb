@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<patterndb version='4' pub_date='2013-08-29'>
+  <ruleset name='pam_unix' id='72d75cb0-0107-4d12-b0bf-cea36ddf7f38'>
+    <description>
+      This ruleset covers the unix pam module in linux
+    </description>
+    <rules>
+      <rule provider="ccin2p3" id='d490b769-1042-4576-918e-c441c65f3a59' class="system">
+        <patterns>
+          <!-- modules/pam_unix/support.c:
+              pam_syslog(pamh, LOG_NOTICE, "authentication failure; "
+                "logname=%s uid=%d euid=%d "
+                "tty=%s ruser=%s rhost=%s %s%s",
+                new->name, new->uid, new->euid,
+                tty ? (const char *)tty : "",
+                ruser ? (const char *)ruser : "",
+                rhost ? (const char *)rhost : "",
+                (new->user && new->user[0] != '\0')
+                ? " user=" : "",
+                new->user
+          ); -->
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser=@ESTRING:temp.ruser: @rhost=  user=@ESTRING:usracct.username:@</pattern>
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser=@ESTRING:temp.pam_ruser: @rhost=@ESTRING:temp.rhost: @user=@ANYSTRING:usracct.username: @</pattern>
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser=@ESTRING:temp.pam_ruser: @rhost=@ESTRING:temp.rhost: @ user=@ANYSTRING:usracct.username: @</pattern>
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser=@ESTRING:usracct.username: @rhost=</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="imapd">pam_unix(imap:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=192.168.2.179  user=czanik</test_message>
+           <test_values>
+             <test_value name="usracct.application">imap</test_value>
+             <test_value name="usracct.service">auth</test_value>
+             <test_value name="usracct.username">czanik</test_value>
+             <test_value name="usracct.device">czanik@</test_value>
+           </test_values>
+          </example>
+          <example>
+           <test_message program="sudo">pam_unix(sudo:auth): authentication failure; logname=phemmer uid=0 euid=0 tty=/dev/pts/13 ruser= rhost=  user=phemmer</test_message>
+           <test_values>
+             <test_value name="usracct.application">sudo</test_value>
+             <test_value name="usracct.service">auth</test_value>
+             <test_value name="usracct.username">phemmer</test_value>
+             <test_value name="usracct.device">phemmer@/dev/pts/13</test_value>
+           </test_values>
+          </example>
+          <example>
+            <test_message program="sshd">pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=ccdirac02.in2p3.fr user=lsstprod</test_message>
+            <test_values>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="usracct.service">auth</test_value>
+              <test_value name="usracct.username">lsstprod</test_value>
+              <test_value name="usracct.device">lsstprod@ssh</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="pure-ftpd">pam_unix(pure-ftpd:auth): authentication failure; logname= uid=0 euid=0 tty=pure-ftpd ruser=asdf rhost=</test_message>
+            <test_values>
+              <test_value name="usracct.application">pure-ftpd</test_value>
+              <test_value name="usracct.service">auth</test_value>
+              <test_value name="usracct.username">asdf</test_value>
+              <test_value name="usracct.device">asdf@pure-ftpd</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="proftpd">pam_unix(proftpd:auth): authentication failure; logname= uid=0 euid=0 tty=/dev/ftpd6846 ruser=czanik rhost=::ffff:192.168.2.179  user=czanik</test_message>
+            <test_values>
+              <test_value name="usracct.application">proftpd</test_value>
+              <test_value name="usracct.service">auth</test_value>
+              <test_value name="usracct.username">czanik</test_value>
+              <test_value name="usracct.device">czanik@/dev/ftpd6846</test_value>
+            </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="usracct.device">${usracct.username}@@${temp.tty}</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
+
+      <rule provider="ccin2p3" id='aee6fdbe-eec8-4741-9b11-b959a27648a6' class="system">
+        <patterns>
+          <!-- modules/pam_unix/support.c:
+                pam_syslog(
+                 pamh, LOG_NOTICE,
+                 "%d more authentication failure%s; logname=%s uid=%d euid=%d "
+                 "tty=%s ruser=%s rhost=%s %s%s",
+                 failure->count - 1, failure->count == 2 ? "" : "s",
+                 failure->name, failure->uid, failure->euid,
+                 tty ? (const char *)tty : "", ruser ? (const char *)ruser : "",
+                 rhost ? (const char *)rhost : "",
+                 (failure->user && failure->user[0] != '\0')
+                  ? " user=" : "", failure->user
+                ); -->
+          <pattern>PAM @NUMBER:temp.auth.count@ more authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser= rhost=@ESTRING:temp.rhost: @user=@ESTRING:usracct.username:@</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="pam_afs">PAM 1 more authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=acaen-651-1-216-63.w86-220.abo.wanadoo.fr user=ojuillet</test_message>
+            <test_values>
+              <test_value name="usracct.application">pam_afs</test_value>
+              <test_value name="usracct.username">ojuillet</test_value>
+              <test_value name="usracct.device">ojuillet@ssh</test_value>
+            </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="usracct.device">${usracct.username}@@${temp.tty}</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
+
+      <rule provider="patterndb" id="0c9a6295-5ac8-46f2-b86a-e65c74f1d440" class="system">
+        <patterns>
+          <!-- modules/pam_unix/pam_unix_sess.c:
+          pam_syslog(pamh, LOG_INFO, "session closed for user %s",
+                  user_name); -->
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: session closed for user @ANYSTRING:usracct.username:@</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="sshd">pam_unix(sshd:session): session closed for user bazsi</test_message>
+            <test_values>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="usracct.username">bazsi</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="crond">pam_unix(crond:session): session closed for user root</test_message>
+            <test_values>
+              <test_value name="usracct.application">crond</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="usracct.username">root</test_value>
+            </test_values>
+          </example>
+          <example>
+           <test_message program="sudo">pam_unix(sudo:session): session closed for user root</test_message>
+           <test_values>
+             <test_value name="usracct.username">root</test_value>
+           </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">logout</value>
+          <value name="usracct.sessionid">$PID</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+        </tags>
+      </rule>
+      <rule provider="patterndb" id="5f546879-0339-4f33-a7b0-fb0b4b042b03" class="system">
+        <patterns>
+          <!-- modules/pam_unix/pam_unix_sess.c:
+          pam_syslog(pamh, LOG_INFO, "session opened for user %s by %s(uid=%lu)",
+                  user_name, login_name, (unsigned long)getuid()); -->
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: session opened for user @ESTRING:usracct.username: by@ (uid=@ESTRING:usracct.uid:)@</pattern>
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: session opened for user @ESTRING:usracct.username: by@ LOGIN(uid=@ESTRING:usracct.uid:)@</pattern>
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: session opened for user @ESTRING:sudo.target.username: by@ @ESTRING:usracct.username:(@uid=@NUMBER:usracct.uid:@)</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="proftpd">pam_unix(proftpd:session): session opened for user czanik by (uid=0)</test_message>
+            <test_values>
+              <test_value name="usracct.application">proftpd</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="usracct.username">czanik</test_value>
+              <test_value name="usracct.uid">0</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="crond">pam_unix(crond:session): session opened for user root by (uid=0)</test_message>
+            <test_values>
+              <test_value name="usracct.application">crond</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="usracct.username">root</test_value>
+              <test_value name="usracct.uid">0</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="sshd">pam_unix(sshd:session): session opened for user smm by (uid=0)</test_message>
+            <test_values>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="usracct.username">smm</test_value>
+              <test_value name="usracct.uid">0</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="login">pam_unix(login:session): session opened for user root by LOGIN(uid=0)</test_message>
+            <test_values>
+              <test_value name="usracct.username">root</test_value>
+              <test_value name="usracct.application">login</test_value>
+              <test_value name="usracct.service">session</test_value>
+           </test_values>
+          </example>
+          <example>
+            <test_message program="su">pam_unix(su:session): session opened for user root by phemmer(uid=8129)</test_message> 
+            <test_values>
+              <test_value name="usracct.username">phemmer</test_value>
+              <test_value name="usracct.application">su</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="sudo.target.username">root</test_value>
+              <test_value name="usracct.uid">8129</test_value>
+           </test_values>
+          </example>
+          <example>
+            <test_message program="pure-ftpd">pam_unix(pure-ftpd:session): session opened for user czanik by (uid=0)</test_message>
+            <test_values>
+              <test_value name="usracct.username">czanik</test_value>
+              <test_value name="usracct.application">pure-ftpd</test_value>
+              <test_value name="usracct.service">session</test_value>
+              <test_value name="usracct.uid">0</test_value>
+           </test_values>
+        </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="secevt.verdict">ACCEPT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
+
+      <rule provider="wernli@in2p3.fr" id='f5216358-8524-4e23-a0d5-a6c6859ff7fd'
+        class='system'
+        context-scope='process'>
+        <patterns>
+          <!-- modules/pam_unix/support.c:
+             pam_syslog(pamh, LOG_WARNING, "check pass; user unknown");
+             pam_syslog(pamh, LOG_WARNING, "check pass; user (%s) unknown", name);
+          -->
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: check pass; user unknown</pattern>
+          <pattern>pam_unix(@ESTRING:usracct.application::@@ESTRING:usracct.service:)@: check pass; user (@ESTRING:usracct.username:)@ unknown</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="sshd">pam_unix(sshd:auth): check pass; user unknown</test_message>
+            <test_values>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="usracct.service">auth</test_value>
+           </test_values>
+          </example>
+          <example>
+            <test_message program="sshd">pam_unix(sshd:auth): check pass; user (toto) unknown</test_message>
+            <test_values>
+              <test_value name="usracct.username">toto</test_value>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="usracct.service">auth</test_value>
+           </test_values>
+          </example>
+          <example>
+            <test_message program="pure-ftpd">pam_unix(pure-ftpd:auth): check pass; user unknown</test_message>
+            <test_values>
+              <test_value name="usracct.application">pure-ftpd</test_value>
+              <test_value name="usracct.service">auth</test_value>
+           </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
+
+    </rules>
+  </ruleset>
+</patterndb>
+
+<!-- vim:ft=xml:background=dark:expandtab
+  -->

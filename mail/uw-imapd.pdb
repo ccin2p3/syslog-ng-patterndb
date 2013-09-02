@@ -118,16 +118,6 @@
           </example>
         </examples>
       </rule>
-      <rule provider="patterndb" id="f5217c70-64e3-41e5-975e-165b7ac7c310" class="system">
-        <patterns>
-          <pattern>pam_unix(imap:auth): authentication failure; logname=@ESTRING:: @uid=@ESTRING:: @euid=@ESTRING:: @tty=@ESTRING:: @ruser=@ESTRING:: @rhost=@ESTRING:: @ user=</pattern>
-        </patterns>
-        <examples>
-          <example>
-            <test_message program="imapd">pam_unix(imap:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=192.168.2.179  user=czanik</test_message>
-          </example>
-        </examples>
-      </rule>
     </rules>
   </ruleset>
 </patterndb>

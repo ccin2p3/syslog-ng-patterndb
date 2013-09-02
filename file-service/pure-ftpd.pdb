@@ -107,36 +107,6 @@
           <tag>secevt</tag>
         </tags>
       </rule>
-      <rule provider="patterndb" id="6668943c-6fc3-4dd1-bc75-3c19ea110f99" class="system">
-        <patterns>
-          <pattern>pam_unix(pure-ftpd:auth): check pass; user unknown</pattern>
-        </patterns>
-        <examples>
-          <example>
-            <test_message program="pure-ftpd">pam_unix(pure-ftpd:auth): check pass; user unknown</test_message>
-          </example>
-        </examples>
-      </rule>
-      <rule provider="patterndb" id="adcec9b6-7d4b-4548-9145-86586d740cae" class="system">
-        <patterns>
-          <pattern>pam_unix(pure-ftpd:auth): authentication failure; @ANYSTRING@</pattern>
-        </patterns>
-        <examples>
-          <example>
-            <test_message program="pure-ftpd">pam_unix(pure-ftpd:auth): authentication failure; logname= uid=0 euid=0 tty=pure-ftpd ruser=asdf rhost=</test_message>
-          </example>
-        </examples>
-      </rule>
-      <rule provider="patterndb" id="d206f4d4-fc1b-4f5c-977d-6d378116d145" class="system">
-        <patterns>
-          <pattern>pam_unix(pure-ftpd:session): session @ANYSTRING@</pattern>
-        </patterns>
-        <examples>
-          <example>
-            <test_message program="pure-ftpd">pam_unix(pure-ftpd:session): session opened for user czanik by (uid=0)</test_message>
-          </example>
-        </examples>
-      </rule>
       <rule provider="patterndb" id="aec09b48-5fcb-4d03-8d75-92ef19c3cee6" class="system">
         <patterns>
           <pattern>(?@@@ESTRING:usracct.device:)@ [INFO]@QSTRING:usracct.username: @is now logged in</pattern>
