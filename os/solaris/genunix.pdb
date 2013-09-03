@@ -1,0 +1,39 @@
+<patterndb version='4' pub_date='2013-08-20'>
+
+<ruleset name='genunix' id='5b36e74b-a702-4fb5-b5cd-531c91018a50'>
+	<patterns>
+		<pattern>genunix</pattern>
+	</patterns>
+
+	<rules>
+	<rule provider="wernli@in2p3.fr" id='c7598e8f-4ad6-443d-98bb-5c6b8b3c446b'
+		class='system/solaris'
+		context-id="core_log"
+		context-scope="process">
+		<patterns>
+			<pattern>[ID @ESTRING::]@ @ESTRING::::@ core_log: @ESTRING:target:]@ core dumped: @ANYSTRING:URI@</pattern>
+		</patterns>
+		<examples>
+			<example>
+				<test_message>genunix: [ID 603404 kern.notice] NOTICE: core_log: collectd[10497] core dumped: /var/core/core.collectd.10497</test_message>
+				<test_values>
+					<test_value name="target">collectd[10497]</test_value>
+					<test_value name="URI">/var/core/core.collectd.10497</test_value>
+				</test_values>
+			</example>
+		</examples>
+		<values>
+			<value name="URI">file://${URI}</value>
+		</values>
+		<tags>
+			<tag>alert</tag>
+		</tags>
+	</rule>
+</rules>
+
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->
