@@ -4,6 +4,16 @@
     <description>
       This ruleset covers the unix pam module in linux
     </description>
+    <patterns>
+      <pattern>crond</pattern>
+      <pattern>imap</pattern>
+      <pattern>login</pattern>
+      <pattern>pure-ftpd</pattern>
+      <pattern>proftpd</pattern>
+      <pattern>sshd</pattern>
+      <pattern>su</pattern>
+      <pattern>sudo</pattern>
+    </patterns>
     <rules>
       <rule provider="ccin2p3" id='d490b769-1042-4576-918e-c441c65f3a59' class="system">
         <patterns>
