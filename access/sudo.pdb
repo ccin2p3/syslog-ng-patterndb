@@ -45,9 +45,11 @@
         <patterns>
           <!-- sudo logs the username right-aligned to 8 chars -->
           <pattern>@ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
+          <pattern>@SET:: @@ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
           <pattern>@ESTRING:temp.sudo_username: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
           <pattern>@SET:: @@ESTRING:temp.sudo_username: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>@SET:: @@ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
+          <pattern>@ESTRING:temp.sudo_username: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ GROUP=@ESTRING:usracct.group: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
+          <pattern>@SET:: @@ESTRING:temp.sudo_username: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ GROUP=@ESTRING:usracct.group: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
         </patterns>
         <examples>
           <example>
