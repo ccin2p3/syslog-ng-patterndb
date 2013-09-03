@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<patterndb version='3' pub_date='2010-07-13'>
+<patterndb version='4' pub_date='2010-07-13'>
   <ruleset name='sudo' id='1f5fd75e-66f9-4598-8326-36e5bbd5675c'>
     <description>
       This ruleset covers the sudo command available on UNIXes.
@@ -12,13 +12,8 @@
         <patterns>
           <!-- sudo logs the username right-aligned to 8 chars -->
           <pattern>@ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern> @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>  @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>   @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>    @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>     @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>      @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
-          <pattern>       @ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
+          <pattern>@ESTRING:temp.sudo_username: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
+          <pattern>@SET:: @@ESTRING:temp.sudo_username: @: HOST=@ESTRING:temp.sudo_host: @: TTY=@ESTRING:temp.sudo_tty: @; PWD=@ESTRING:temp.sudo_pwd: ;@ USER=@ESTRING:usracct.username: ;@ COMMAND=@ANYSTRING:temp.sudo_command@</pattern>
         </patterns>
         <examples>
           <example>
@@ -27,6 +22,14 @@
               <test_value name="usracct.username">root</test_value>
               <test_value name="usracct.device">phemmer@pts/13</test_value>
               <test_value name="usracct.object">/home/phemmer$ /bin/ls</test_value>
+           </test_values>
+          </example>
+          <example>
+          <test_message program="sudo">atlas : TTY=unknown ; PWD=/home/atlas ; USER=root ; COMMAND=/usr/bin/unlink /</test_message>
+            <test_values>
+              <test_value name="usracct.username">root</test_value>
+              <test_value name="usracct.device">atlas@unknown</test_value>
+              <test_value name="usracct.object">/home/atlas$ /usr/bin/unlink /</test_value>
            </test_values>
           </example>
         </examples>
