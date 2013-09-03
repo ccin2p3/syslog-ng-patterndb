@@ -1,0 +1,48 @@
+<patterndb version='4' pub_date='2013-08-19'>
+
+<ruleset name='kernel.block.blk-core' id='98c11669-d916-4505-8462-e72ddda4b3d3'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='0e701906-cfcb-4868-ad60-d6ae12789fe1'
+			class='system'
+			context-id='kernel.block.blk-core'
+			context-scope='program'>
+			<patterns>
+				<!-- block/blk-core.c: printk(KERN_ERR "end_request: I/O error, dev %s, sector %llu\n" -->
+				<pattern>end_request: I/O error, dev @ESTRING:kernel.block.blk-core.disk_name:,@ sector @NUMBER:kernel.block.blk-core.sector@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">end_request: I/O error, dev sda, sector 649918246</test_message>
+					<test_values>
+						<test_value name="kernel.block.blk-core.disk_name">sda</test_value>
+						<test_value name="kernel.block.blk-core.sector">649918246</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="target">${kernel.block.blk-core.disk_name}</value>
+			</values>
+			<tags>
+				<tag>kernel</tag>
+				<tag>drivers</tag>
+				<tag>block</tag>
+				<tag>blk-core</tag>
+				<tag>ioerror</tag>
+				<tag>alert</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- TODO
+kernel: hda: dma_timer_expiry: dma status == 0x21
+
+-->
+
+<!-- vim:ft=xml
+  -->

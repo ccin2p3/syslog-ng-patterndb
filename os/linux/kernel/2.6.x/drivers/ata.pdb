@@ -1,0 +1,311 @@
+<patterndb version='4' pub_date='2013-08-19'>
+
+<ruleset name='kernel.drivers.ata' id='6025649b-6d0a-4903-886e-5e2ca22d745b'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='4b692672-4292-4112-84c4-c22e0f9af562'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.dev}'
+			context-timeout='10'
+			context-scope='program'>
+			<patterns>
+				<!-- drivers/ata/libata-eh.c: ehc->i.dev, KERN_ERR, "exception Emask 0x%x SAct 0x%x SErr 0x%x action 0x%x%s%s\n",
+				     ehc->i.err_mask, link->sactive, ehc->i.serror, ehc->i.action, frozen, tries_buf -->
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.dev::@ exception Emask @NUMBER:kernel.drivers.ata.err_mask@ SAct @NUMBER:kernel.drivers.ata.sactive@ SErr @NUMBER:kernel.drivers.ata.serror@ action @NUMBER:kernel.drivers.ata.action@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: exception Emask 0x0 SAct 0xffff SErr 0x0 action 0x0</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.err_mask">0x0</test_value>
+						<test_value name="kernel.drivers.ata.sactive">0xffff</test_value>
+						<test_value name="kernel.drivers.ata.serror">0x0</test_value>
+						<test_value name="kernel.drivers.ata.action">0x0</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='cd9efb2f-2773-490d-a0ce-0328cceb24bd'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.dev}'
+			context-timeout='10'
+			context-scope='program'>
+			<patterns>
+				<!-- drivers/ata/libata-eh.c:  -->
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.dev::@ status: { @ESTRING:kernel.drivers.ata.error: }@</pattern>
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.dev::@ error: { @ESTRING:kernel.drivers.ata.error: }@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: status: { DRDY ERR }</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.error">DRDY ERR</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: status: { UNC }</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.error">UNC</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: error: { UNC }</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.error">UNC</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags><tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>alert</tag><tag>hardware</tag></tags>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='9cfad9a4-aae4-49aa-b8cd-74b720b83036'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.dev}'
+			context-timeout='10'
+			context-scope='program'>
+			<patterns>
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.dev::@ cmd @ESTRING:kernel.drivers.ata.res: @tag @NUMBER:kernel.drivers.ata.tag@ @ANYSTRING:kernel.drivers.ata.desc@</pattern>
+				<pattern>kernel:@SET:: @res @ESTRING:kernel.drivers.ata.res: @Emask @NUMBER:kernel.drivers.ata.err_mask@ (@ESTRING:kernel.drivers.ata.error:)@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: cmd 61/10:18:88:81:0f/00:00:04:00:00/40 tag 3 ncq 8192 out</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.res">61/10:18:88:81:0f/00:00:04:00:00/40</test_value>
+						<test_value name="kernel.drivers.ata.tag">3</test_value>
+						<test_value name="kernel.drivers.ata.desc">ncq 8192 out</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: cmd 25/00:10:90:41:1d/00:00:31:00:00/e0 tag 0 dma 8192 in</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.res">25/00:10:90:41:1d/00:00:31:00:00/e0</test_value>
+						<test_value name="kernel.drivers.ata.tag">0</test_value>
+						<test_value name="kernel.drivers.ata.desc">dma 8192 in</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='kernel'>kernel:         res 41/40:00:00:00:00/00:00:00:00:00/00 Emask 0x9 (media error)</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.res">41/40:00:00:00:00/00:00:00:00:00/00</test_value>
+						<test_value name="kernel.drivers.ata.err_mask">0x9</test_value>
+						<test_value name="kernel.drivers.ata.error">media error</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='kernel'>kernel: res 51/40:00:90:41:1d/b4:00:31:00:00/e0 Emask 0x9 (media error)</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.res">51/40:00:90:41:1d/b4:00:31:00:00/e0</test_value>
+						<test_value name="kernel.drivers.ata.err_mask">0x9</test_value>
+						<test_value name="kernel.drivers.ata.error">media error</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='7cb3b123-1241-4cfb-ac10-55cfe1d027ca'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.dev}'
+			context-timeout='10'
+			context-scope='program'>
+			<patterns>
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.dev::@ irq_stat @NUMBER:kernel.drivers.ata.irq_stat@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata2.00: irq_stat 0x40000001</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">2.00</test_value>
+						<test_value name="kernel.drivers.ata.irq_stat">0x40000001</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+			</tags>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='656ba7a8-c79a-4a20-8437-03ff0c247ff0'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.link}'
+			context-scope='program'>
+			<patterns>
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.link::@ SError: { @ESTRING:kernel.drivers.ata.serror: }@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata1: SError: { UnrecovData HostInt 10B8B BadCRC }</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.link">1</test_value>
+						<test_value name="kernel.drivers.ata.serror">UnrecovData HostInt 10B8B BadCRC</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider='wernli@in2p3.fr' id='f9d016cf-f4c3-42f4-ae0d-64435cd8e7fa'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.link}'
+		context-timeout='30'
+			context-scope='program'>
+			<patterns>
+				<!-- drivers/ata/libata-eh.c: ata_link_printk(link, KERN_ERR, "failed to read log page 10h "
+								        "(errno=%d)\n", rc); -->
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.link::@ failed to read log page 10h (errno=@NUMBER:kernel.drivers.ata.errno:)@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata1: failed to read log page 10h (errno=-5)</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.link">1</test_value>
+						<test_value name="kernel.drivers.ata.errno">-5</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+	</rule>
+	<rule provider='wernli@in2p3.fr' id='6c733e8c-ec5c-4a14-9df7-3a9ce429ddfe'
+		class='system'
+		context-id='kernel.drivers.ata.${kernel.drivers.ata.link}'
+		context-timeout='30'
+		context-scope='program'>
+		<patterns>
+			<!-- drivers/ata/libata-core.c:    ata_link_printk(link, KERN_ERR,
+						         "failed to resume link (SControl %X)\n", scontrol);
+				  -->
+			<pattern>kernel: ata@ESTRING:kernel.drivers.ata.link::@ failed to resume link (SControl @NUMBER:kernel.drivers.ata.scontrol:)@</pattern>
+		</patterns>
+		<examples>
+			<example>
+				<test_message program='kernel'>kernel: ata2: failed to resume link (SControl 0)</test_message>
+				<test_values>
+					<test_value name="kernel.drivers.ata.link">2</test_value>
+					<test_value name="kernel.drivers.ata.scontrol">0</test_value>
+				</test_values>
+			</example>
+		</examples>
+		<values>
+			<value name=".classifier.context-id">$CONTEXT_ID</value>
+		</values>
+		<tags>
+			<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+		</tags>
+		<actions>
+			<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+				<message inherit-properties="TRUE">
+					<tags><tag>alert</tag></tags>
+				</message>
+			</action>
+		</actions>
+	</rule>
+	<rule provider='wernli@in2p3.fr' id='09e95500-ba17-4498-867b-38f9207ae8fb'
+		class='system'
+		context-id='kernel.drivers.ata.${kernel.drivers.ata.link}'
+		context-timeout='30'
+		context-scope='program'>
+		<patterns>
+			<!-- drivers/ata/libata-core.c: ata_link_printk(link, KERN_WARNING, "limiting SATA link speed to %s\n",
+						      sata_spd_string(fls(mask)));
+			-->
+			<pattern>kernel: ata@ESTRING:kernel.drivers.ata.link::@ limiting SATA link speed to @ANYSTRING:kernel.drivers.ata.lspeed@</pattern>
+		</patterns>
+		<examples>
+			<example>
+				<test_message program='kernel'>kernel: ata1: limiting SATA link speed to 1.5 Gbps</test_message>
+				<test_values>
+					<test_value name="kernel.drivers.ata.link">1</test_value>
+					<test_value name="kernel.drivers.ata.lspeed">1.5 Gbps</test_value>
+				</test_values>
+			</example>
+		</examples>
+		<values>
+			<value name=".classifier.context-id">$CONTEXT_ID</value>
+		</values>
+		<tags>
+			<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+		</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+	</rule>
+</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- TODO
+kernel: hda: dma_timer_expiry: dma status == 0x21
+
+-->
+
+<!-- vim:ft=xml
+  -->

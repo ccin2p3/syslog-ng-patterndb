@@ -1,0 +1,63 @@
+<patterndb version='4' pub_date='2013-08-19'>
+
+<ruleset name='kernel.net.ipv4' id='fa9797a7-fc8c-4109-a345-47dee1721d42'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider='wernli@in2p3.fr' id='f65e1cef-677a-444c-b483-567485a72524'
+			class='system'
+			context-id='kernel.net.ipv4.route'
+			context-scope='program'>
+			<patterns>
+				<pattern>kernel: ll header: @LLADDR:kernel.net.ipv4.route.llheader@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ll header: 00:22:19:65:b9:3a:00:26:98:24:9e:c1:08:00</test_message>
+					<test_values>
+						<test_value name='kernel.net.ipv4.route.llheader'>00:22:19:65:b9:3a:00:26:98:24:9e:c1:08:00</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag>
+				<tag>net</tag>
+				<tag>ipv4</tag>
+			</tags>
+		</rule>
+		<rule provider='wernli@in2p3.fr' id='572e9893-e4c2-4076-8c17-74c70b2549a5'
+			class='system'
+			context-id='kernel.net.ipv4.route'
+			context-scope='program'>
+			<patterns>
+				<pattern>kernel: martian source @IPvANY:kernel.net.ipv4.route.destination.ip@ from @IPvANY:kernel.net.ipv4.route.source.ip@, on dev @ANYSTRING:kernel.net.ipv4.route.dev@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: martian source 10.0.106.201 from 10.0.69.167, on dev eth0</test_message>
+					<test_values>
+						<test_value name='kernel.net.ipv4.route.destination.ip'>10.0.106.201</test_value>
+						<test_value name='kernel.net.ipv4.route.source.ip'>10.0.69.167</test_value>
+						<test_value name='kernel.net.ipv4.route.dev'>eth0</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag>
+				<tag>net</tag>
+				<tag>ipv4</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- TODO
+kernel: hda: dma_timer_expiry: dma status == 0x21
+
+-->
+
+<!-- vim:ft=xml
+  -->

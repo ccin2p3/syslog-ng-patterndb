@@ -1,0 +1,32 @@
+<patterndb version='4' pub_date='2013-08-26'>
+
+<ruleset name='named' id='db6b4f71-88f2-4e1b-a3d5-908a3da63225'>
+	<patterns>
+		<pattern>named</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='bc98fb8f-5725-4b0e-a594-16591e9bce4b'
+			class='system.daemon'
+			context-id='named'
+			context-scope="process">
+			<patterns>
+				<pattern>FORMERR resolving '@ESTRING:system.daemon.named.entry:'@: @IPvANY:system.daemon.named.nameserver.ip@#@NUMBER:system.daemon.named.nameserver.port@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="named">FORMERR resolving 'my.fqdn.at.tld/AAAA/IN': 10.0.69.164#53</test_message>
+					<test_values>
+						<test_value name="system.daemon.named.entry">my.fqdn.at.tld/AAAA/IN</test_value>
+						<test_value name="system.daemon.named.nameserver.ip">10.0.69.164</test_value>
+						<test_value name="system.daemon.named.nameserver.port">53</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

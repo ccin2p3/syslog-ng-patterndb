@@ -1,0 +1,39 @@
+<patterndb version='4' pub_date='2013-08-27'>
+
+<ruleset name='kernel.drivers.scsi' id='1d075610-3eef-4e13-b2a4-1b16469a6bf3'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='2cbbab4b-9ded-4a77-94c9-e2c9de8d045d'
+			class='system'
+			context-scope='program'>
+			<patterns>
+				<!--  drivers/scsi/constants.c:
+							printk("Result: hostbyte=%s driverbyte=%s\n",
+							         (hb < NUM_HOSTBYTE_STRS ? hostbyte_table[hb]     : "invalid"),
+							                  (db < NUM_DRIVERBYTE_STRS ? driverbyte_table[db] : "invalid"));
+					-->
+				<pattern>kernel: Result: hostbyte=@ESTRING:kernel.drivers.scsi.hostbyte: @driverbyte=@ANYSTRING:kernel.drivers.scsi.driverbyte@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE,SUGGEST_OK</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.scsi.hostbyte">DID_OK</test_value>
+						<test_value name="kernel.drivers.scsi.driverbyte">DRIVER_SENSE,SUGGEST_OK</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>sense_key</tag><tag>scsi</tag><tag>alert</tag><tag>hardware</tag>
+				<tag>kernel</tag><tag>drivers</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

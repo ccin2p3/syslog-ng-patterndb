@@ -1,0 +1,35 @@
+<patterndb version='4' pub_date='2013-08-26'>
+
+<ruleset name='cron' id='3a8efec5-6974-4b4a-b203-3247fe235812'>
+	<patterns>
+		<pattern>crond</pattern>
+		<pattern>CROND</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='8a9cb5ac-6505-47d4-aef9-8cfc0c70c883'
+			class='system'
+			context-id="crond"
+			context-scope="process">
+			<patterns>
+				<pattern>(@ESTRING:crond.user:)@ CMD (@ESTRING:crond.cmd:)@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="crond">(root) CMD (/usr/lib64/sa/sa1 1 1)</test_message>
+					<test_values>
+						<test_value name="crond.user">root</test_value>
+						<test_value name="crond.cmd">/usr/lib64/sa/sa1 1 1</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>linux</tag><tag>system</tag><tag>os</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

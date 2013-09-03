@@ -1,0 +1,53 @@
+<patterndb version='4' pub_date='2013-08-27'>
+
+<ruleset name='ntp' id='1c658583-072b-47ee-8efd-0350458337cd'>
+	<patterns>
+		<pattern>ntpd</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='7e59c9c2-a69e-40c0-8463-a04427797aa8'
+			class='system.daemon'
+			context-scope='process'>
+			<patterns>
+				<pattern>can't open @ESTRING:system.daemon.ntpd.drift.file::@ @ANYSTRING:system.daemon.ntpd.error@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="ntpd">can't open /etc/ntp/drift.TEMP: Permission denied</test_message>
+					<test_values>
+						<test_value name="system.daemon.ntpd.drift.file">/etc/ntp/drift.TEMP</test_value>
+						<test_value name="system.daemon.ntpd.error">Permission denied</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>alert</tag>
+				<tag>system.daemon</tag><tag>ntp</tag><tag>clock</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='d0350fe7-753a-4184-8c2e-9850cdb4dcac'
+			class='system.daemon'
+			context-scope='process'>
+			<patterns>
+				<pattern>synchronized to @IPvANY:system.daemon.ntpd.sync.server@, stratum @NUMBER:system.daemon.ntpd.sync.stratum@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="ntpd">synchronized to 10.0.99.100, stratum 4</test_message>
+					<test_values>
+						<test_value name="system.daemon.ntpd.sync.server">10.0.99.100</test_value>
+						<test_value name="system.daemon.ntpd.sync.stratum">4</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>system.daemon</tag><tag>ntp</tag><tag>clock</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

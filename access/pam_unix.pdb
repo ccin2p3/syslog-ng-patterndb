@@ -44,7 +44,7 @@
            </test_values>
           </example>
           <example>
-            <test_message program="sshd">pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=ccdirac02.in2p3.fr user=lsstprod</test_message>
+            <test_message program="sshd">pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=myhost.mydomain.tld user=lsstprod</test_message>
             <test_values>
               <test_value name="usracct.application">sshd</test_value>
               <test_value name="usracct.service">auth</test_value>

@@ -1,0 +1,52 @@
+<patterndb version='4' pub_date='2013-08-26'>
+<ruleset name='cgre' id='8cc92d43-1ad4-4805-854a-9c6bb303bff3'>
+	<patterns>
+		<pattern>CGRE</pattern>
+	</patterns>
+	<rules>
+		<rule provider='wernli@in2p3.fr' id='e459ad79-937b-4dd1-b76f-f194d403adbf'
+			class='system.daemon'
+			context-id='cgre'
+			context-scope='process'>
+			<patterns>
+				<pattern>Warning: failed to apply the rule. Error was: @NUMBER:system.daemon.cgre.errno@</pattern>
+				<pattern>Warning: cgroup_attach_task_pid failed: @NUMBER:system.daemon.cgre.errno@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="CGRE">Warning: failed to apply the rule. Error was: 50016</test_message>
+					<test_values>
+						<test_value name="system.daemon.cgre.errno">50016</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="CGRE">Warning: cgroup_attach_task_pid failed: 50016</test_message>
+					<test_values>
+						<test_value name="system.daemon.cgre.errno">50016</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider='wernli@in2p3.fr' id='1928298a-8a1a-417f-8199-7be60e7994f5'
+			class='system.daemon'
+			context-id='cgre'
+			context-scope='process'>
+			<patterns>
+				<pattern>Warning: cannot write tid @NUMBER:system.daemon.cgre.tid@ to @ESTRING:system.daemon.cgre.path::@@ANYSTRING:system.daemon.cgre.err@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="CGRE">Warning: cannot write tid 18038 to /cgroup/cpu/jobs/system//tasks:No such process</test_message>
+					<test_values>
+						<test_value name="system.daemon.cgre.tid">18038</test_value>
+						<test_value name="system.daemon.cgre.path">/cgroup/cpu/jobs/system//tasks</test_value>
+						<test_value name="system.daemon.cgre.err">No such process</test_value>
+					</test_values>
+				</example>
+			</examples>
+			</rule>
+		</rules>
+</ruleset>
+</patterndb>
+<!-- vim:ft=xml:background=dark
+		 -->

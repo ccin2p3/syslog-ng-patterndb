@@ -1,0 +1,54 @@
+<patterndb version='4' pub_date='2013-08-19'>
+
+<ruleset name='kernel.fs.buffer' id='52a6373b-67cd-4448-897d-6f0e0c1a0cbf'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='4108122c-b9f2-4ca6-a284-75bfbf744c6c'
+			class='system'
+			context-id='kernel.fs.buffer.dev.${kernel.fs.buffer.dev}'
+			context-timeout='10'
+			context-scope="program">
+			<patterns>
+				<!-- printk(KERN_ERR "Buffer I/O error on device %s, logical block %Lu\n",
+						 	      bdevname(bh->b_bdev, b), (unsigned long long)bh->b_blocknr);
+				-->
+				<pattern>Buffer I/O error on device @ESTRING:kernel.fs.buffer.dev:,@ logical block @NUMBER:kernel.fs.buffer.blk@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">Buffer I/O error on device dm-6, logical block 64557071</test_message>
+					<test_values>
+						<test_value name="kernel.fs.buffer.dev">dm-6</test_value>
+						<test_value name="kernel.fs.buffer.blk">64557071</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag>
+				<tag>fs</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- TODO
+kernel: hda: dma_timer_expiry: dma status == 0x21
+
+-->
+
+<!-- vim:ft=xml
+  -->

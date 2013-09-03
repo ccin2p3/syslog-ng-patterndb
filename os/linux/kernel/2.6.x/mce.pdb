@@ -1,0 +1,111 @@
+<patterndb version='4' pub_date='2013-08-29'>
+
+<ruleset name='mcelog' id='895e81df-e250-4796-9673-e6a8eac82da5'>
+	<patterns>
+		<pattern>mcelog</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='ccfb64b4-1cd4-48e6-b20e-2406ec5b419d'
+			class='system'
+			context-id='mcelog-memory-error-${HOST}-${system.mcelog.memory.page}'
+			context-timeout='0'
+			context-scope='program'>
+			<patterns>
+				<pattern>Offlining page @STRING:system.mcelog.memory.page@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="mcelog">Offlining page 7759c9000</test_message>
+					<test_values>
+						<test_value name="system.mcelog.memory.page">7759c9000</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name=".classifier.context-length">$CONTEXT_LENGTH</value>
+			</values>
+			<tags>
+				<tag>mce</tag><tag>memory</tag><tag>hardware</tag><tag>alert</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='60a3bc69-c1d5-443d-8dbe-c48c5e75b778'
+			class='system'
+			context-id='mcelog-memory-error-${HOST}'
+			context-timeout='1800'
+			context-scope='program'>
+			<patterns>
+				<pattern>Location SOCKET:@NUMBER:system.mcelog.memory.socket@ CHANNEL:@NUMBER:system.mcelog.memory.channel@ DIMM:@NUMBER:system.mcelog.memory.dimm@ @QSTRING:system.mcelog.memory.desc:[]@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="mcelog">Location SOCKET:0 CHANNEL:0 DIMM:0 []</test_message>
+					<test_values>
+						<test_value name="system.mcelog.memory.socket">0</test_value>
+						<test_value name="system.mcelog.memory.channel">0</test_value>
+						<test_value name="system.mcelog.memory.dimm">0</test_value>
+						<test_value name="system.mcelog.memory.desc"></test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name=".classifier.context-length">$CONTEXT_LENGTH</value>
+			</values>
+			<tags>
+				<tag>mce</tag><tag>memory</tag><tag>hardware</tag>
+			</tags>
+			<actions>
+				<action condition='"$(context-length)" >= "10"' trigger='match'>
+					<message inherit-properties='TRUE'>
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='a1db3c10-9afc-47cf-8f7b-1a2e57c623c1'
+			class='system'
+			context-id='mcelog-memory-error-${HOST}-${system.mcelog.memory.page}'
+			context-timeout='60'
+			context-scope='program'>
+			<patterns>
+				<pattern>Corrected memory errors on page @STRING:system.mcelog.memory.page@ exceed threshold @NUMBER:system.mcelog.memory.thresh@ in @ESTRING:system.mcelog.memory.timeout::@ @ANYSTRING:system.mcelog.memory.desc@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="mcelog">Corrected memory errors on page 7baf8f000 exceed threshold 10 in 24h: 10 in 24h</test_message>
+					<test_values>
+						<test_value name="system.mcelog.memory.page">7baf8f000</test_value>
+						<test_value name="system.mcelog.memory.thresh">10</test_value>
+						<test_value name="system.mcelog.memory.timeout">24h</test_value>
+						<test_value name="system.mcelog.memory.desc">10 in 24h</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name=".classifier.context-length">$CONTEXT_LENGTH</value>
+			</values>
+			<tags>
+				<tag>mce</tag><tag>memory</tag><tag>hardware</tag>
+			</tags>
+			<actions>
+				<action trigger='timeout'>
+					<message inherit-properties='TRUE'>
+						<values>
+							<value name="MESSAGE">Error Threshold exceeded for memory age ${system.mcelog.memory.page} exceeded, but not offlined after 60 seconds</value>
+						</values>
+						<tags>
+							<tag>alert</tag>
+						</tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

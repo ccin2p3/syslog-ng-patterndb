@@ -1,0 +1,131 @@
+<patterndb version='4' pub_date='2013-08-19'>
+
+<ruleset name='kernel.fs.xfs' id='8fd9307c-d67f-41e4-8e4c-53837c50d436'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='d728c30a-8333-42d1-b402-53d9b578b82c'
+			class='system'
+			context-id='kernel.fs.xfs.${kernel.fs.dev}'
+			context-timeout='15'
+			context-scope="program">
+			<patterns>
+				<!-- xfs_rw.c: meta-data dev %s block 0x%llx       (\"%s\") error %d buf count %zd -->
+				<pattern>kernel: I/O error in filesystem ("@ESTRING:kernel.fs.dev:"@) meta-data dev @ESTRING:: block@ @NUMBER:kernel.fs.block@       ("@ESTRING:kernel.fs.xfs.func:")@ error @NUMBER:kernel.fs.xfs.error@ buf count @NUMBER:kernel.fs.xfs.bufcount@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: I/O error in filesystem ("dm-6") meta-data dev dm-6 block 0x4894ef10       ("xfs_trans_read_buf") error 5 buf count 4096</test_message>
+					<test_values>
+						<test_value name="kernel.fs.dev">dm-6</test_value>
+						<test_value name="kernel.fs.block">0x4894ef10</test_value>
+						<test_value name="kernel.fs.xfs.func">xfs_trans_read_buf</test_value>
+						<test_value name="kernel.fs.xfs.error">5</test_value>
+						<test_value name="kernel.fs.xfs.bufcount">4096</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="kernel">kernel: I/O error in filesystem ("dm-6") meta-data dev dm-6 block 0x327f7a03       ("xlog_iodone") error 5 buf count 32768</test_message>
+					<test_values>
+						<test_value name="kernel.fs.dev">dm-6</test_value>
+						<test_value name="kernel.fs.block">0x327f7a03</test_value>
+						<test_value name="kernel.fs.xfs.func">xlog_iodone</test_value>
+						<test_value name="kernel.fs.xfs.error">5</test_value>
+						<test_value name="kernel.fs.xfs.bufcount">32768</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag>
+				<tag>fs</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='cbeb5440-a16f-4d4d-9f07-b31868c7f9c6'
+			class='system'
+			context-id='kernel.fs.xfs.${kernel.fs.dev}'
+			context-timeout='15'
+			context-scope="program">
+			<patterns>
+				<!-- fs/xfs/xfs_inode.c: cmn_err(CE_WARN, "xfs_imap_to_bp: xfs_trans_read_buf()returned an error %d on %s.  Returning error.",error, mp->m_fsname); -->
+				<pattern>kernel: xfs_imap_to_bp: xfs_trans_read_buf()returned an error @NUMBER:kernel.fs.xfs.inode.error@ on @ESTRING:kernel.fs.dev:.@ Returning error.</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: xfs_imap_to_bp: xfs_trans_read_buf()returned an error 5 on dm-6. Returning error.</test_message>
+					<test_values>
+						<test_value name="kernel.fs.dev">dm-6</test_value>
+						<test_value name="kernel.fs.xfs.inode.error">5</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag>
+				<tag>fs</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='7a8f255f-705d-4d1b-aa54-67c91c75aad3'
+			class='system'
+			context-id='kernel.fs.xfs.${kernel.fs.dev}'
+			context-timeout='15'
+			context-scope="program">
+			<patterns>
+				<!-- fs/xfs/xfs_log.c: xfs_fs_cmn_err(CE_WARN, mp, "xfs_log_force: error %d returned.", error); -->
+				<pattern>kernel: Filesystem @ESTRING:kernel.fs.dev::@ xfs_log_force: error @NUMBER:kernel.fs.xfs.error@ returned.</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: Filesystem dm-6: xfs_log_force: error 5 returned.</test_message>
+					<test_values>
+						<test_value name="kernel.fs.dev">dm-6</test_value>
+						<test_value name="kernel.fs.xfs.error">5</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<tags>
+				<tag>kernel</tag>
+				<tag>fs</tag>
+			</tags>
+			<actions>
+				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags><tag>alert</tag></tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- TODO
+kernel: hda: dma_timer_expiry: dma status == 0x21
+
+-->
+
+<!-- vim:ft=xml
+  -->

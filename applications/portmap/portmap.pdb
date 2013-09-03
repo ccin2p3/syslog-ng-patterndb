@@ -1,0 +1,38 @@
+<patterndb version='4' pub_date='2013-08-26'>
+
+<ruleset name='portmap' id='19f9c156-9c4e-4bb7-9958-30400439cc0c'>
+	<patterns>
+		<pattern>portmap</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='bc98fb8f-5725-4b0e-a594-16591e9bce4b'
+			class='system.daemon'
+			context-id='portmap'
+			context-scope="process">
+			<patterns>
+				<pattern>connect from @IPvANY:system.daemon.portmap.source.ip@ to callit(@ESTRING:system.daemon.portmap.service:)@: @ANYSTRING:system.daemon.portmap.error@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="portmap">connect from 10.0.105.226 to callit(ypserv): request from unauthorized host</test_message>
+					<test_values>
+						<test_value name="system.daemon.portmap.source.ip">10.0.105.226</test_value>
+						<test_value name="system.daemon.portmap.service">ypserv</test_value>
+						<test_value name="system.daemon.portmap.error">request from unauthorized host</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="secevt.verdict">REJECT</value>
+			</values>
+			<tags>
+				<tag>secevt</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

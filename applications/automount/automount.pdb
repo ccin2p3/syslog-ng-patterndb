@@ -1,0 +1,54 @@
+<patterndb version='4' pub_date='2013-08-26'>
+
+<ruleset name='automount' id='d688ed68-0e9f-4a61-b597-d5da220fc5a6'>
+	<patterns>
+		<pattern>automount</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='a131a0df-9c53-41b0-a2cf-4d3d09e19523'
+			class='system'
+			context-id='system.daemon.automount'
+			context-scope='process'>
+			<patterns>
+				<pattern>master.c:@NUMBER:system.daemon.automount.lineno@: assertion failed: ap->state == ST_READY</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='automount'>master.c:933: assertion failed: ap->state == ST_READY</test_message>
+					<test_values>
+						<test_value name='system.daemon.automount.lineno'>933</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='b08fe8a2-c058-4203-90ee-06666c86b6a8'
+			class='system'
+			context-id='system.daemon.automount'
+			context-scope='process'>
+			<patterns>
+				<pattern>lookup_mount: lookup(@ESTRING:system.daemon.automount.map:)@: key "@ESTRING:system.daemon.automount.key:"@ not found in map</pattern>
+				<pattern>key "@ESTRING:system.daemon.automount.key:"@ not found in map source(s).</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='automount'>lookup_mount: lookup(yp): key ".hg" not found in map</test_message>
+					<test_values>
+						<test_value name='system.daemon.automount.map'>yp</test_value>
+						<test_value name='system.daemon.automount.key'>.hg</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='automount'>key "{arch}" not found in map source(s).</test_message>
+					<test_values>
+						<test_value name='system.daemon.automount.key'>{arch}</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

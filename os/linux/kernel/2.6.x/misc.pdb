@@ -1,0 +1,97 @@
+<patterndb version='4' pub_date='2013-08-19'>
+
+<ruleset name='agetty' id='777037e3-c4bc-4271-baad-c778f69f0c4e'>
+	<patterns>
+		<pattern>agetty</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='f4921837-0a1a-4b7c-81dd-3cb4d79fd594'
+			class='system'
+			context-id="agetty"
+			context-scope="program">
+			<patterns>
+				<pattern>tty@ESTRING:system.tty::@ ioctl: Input/output error</pattern>
+			</patterns>
+			<tags><tag>alert</tag></tags>
+		</rule>
+	</rules>
+</ruleset>
+
+<ruleset name='compat' id='6ca1095d-bc0d-41e5-b47d-1ced34deb7be'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider='wernli@in2p3.fr' id='999e6bdf-2c9d-4a16-8ca8-4f9755257948'
+			class='system'
+			context-id='compat32'
+			context-scope='program'>
+			<patterns>
+				<!-- fs/compat_ioctl.c:
+					compat_printk("ioctl32(%s:%d): Unknown cmd fd(%d) cmd(%08x){t:%s;sz:%u} arg(%08x) on %s\n",
+					current->comm, current->pid,
+					(int)fd, (unsigned int)cmd, buf,
+					(cmd >> _IOC_SIZESHIFT) & _IOC_SIZEMASK,
+					(unsigned int)arg, fn);
+				-->
+				<pattern>kernel: ioctl32(@ESTRING:kernel.fs.compat_ioctl.process::@@NUMBER:kernel.fs.compat_ioctl.pid@): Unknown cmd fd(@NUMBER:kernel.fs.compat_ioctl.fd@) cmd(@ESTRING:kernel.fs.compat_ioctl.cmd:)@{t:@ESTRING:kernel.fs.compat_ioctl.t:;@sz:@ESTRING:kernel.fs.compat_ioctl.sz:}@ arg(@ESTRING:kernel.fs.compat_ioctl.arg:)@ on @ANYSTRING:kernel.fs.compat_ioctl.file@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ioctl32(athena.py:5619): Unknown cmd fd(129) cmd(00001268){t:12;sz:0} arg(ffdc84dc) on /scratch/9103162.1.huge/home_crm02_184566319/oradiag_atlas050/diag/clients/user_atlas050/host_2816692524_76/metadata/INC_METER_PK_IMPTS.ams</test_message>
+					<test_values>
+						<test_value name='kernel.fs.compat_ioctl.process'>athena.py</test_value>
+						<test_value name='kernel.fs.compat_ioctl.pid'>5619</test_value>
+						<test_value name='kernel.fs.compat_ioctl.fd'>129</test_value>
+						<test_value name='kernel.fs.compat_ioctl.cmd'>00001268</test_value>
+						<test_value name='kernel.fs.compat_ioctl.t'>12</test_value>
+						<test_value name='kernel.fs.compat_ioctl.sz'>0</test_value>
+						<test_value name='kernel.fs.compat_ioctl.arg'>ffdc84dc</test_value>
+						<test_value name='kernel.fs.compat_ioctl.file'>/scratch/9103162.1.huge/home_crm02_184566319/oradiag_atlas050/diag/clients/user_atlas050/host_2816692524_76/metadata/INC_METER_PK_IMPTS.ams</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag><tag>compat</tag><tag>ioctl</tag><tag>ioctl32</tag><tag>fs</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+<ruleset name='kernel.lib.ratelimit' id='2fd45b1b-ae3d-4a52-b4c8-c7c8ba99882c'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider='wernli@in2p3.fr' id='4ca5fd3a-75fa-4006-8e91-b2406cd370ff'
+			class='system'
+			context-id='kernel.lib.ratelimit'
+			context-scope='program'>
+			<patterns>
+				<!-- lib/ratelimit.c:
+						 printk(KERN_WARNING "%s: %d callbacks suppressed\n",
+			              __func__, rs->missed);
+				--> 
+				<pattern>kernel: __ratelimit: @NUMBER:kernel.lib.ratelimit.limit@ callbacks suppressed</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: __ratelimit: 1 callbacks suppressed</test_message>
+					<test_values>
+						<test_value  name='kernel.lib.ratelimit.limit'>1</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- TODO
+kernel: hda: dma_timer_expiry: dma status == 0x21
+
+-->
+
+<!-- vim:ft=xml
+  -->
