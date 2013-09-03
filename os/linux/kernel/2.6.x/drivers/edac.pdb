@@ -1,0 +1,113 @@
+<patterndb version='4' pub_date='2013-09-03'>
+
+<ruleset name='kernel.drivers.edac' id='d190024c-8b9e-49b7-89aa-3b1f6764e3cf'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='53d5836a-c880-4c3c-929d-038df5f5a9c8'
+			class='system'>
+			<patterns>
+				<!-- ./edac_mce_amd.c:       pr_emerg(" Northbridge Error, node %d", node_id); -->
+				<pattern>kernel: Northbridge Error, node @NUMBER:kernel.drivers.edac.node@</pattern>
+				<pattern>kernel: Northbridge Error (node @NUMBER:kernel.drivers.edac.node@): @ANYSTRING:root.details@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: Northbridge Error (node 1): DRAM ECC error detected on the NB.</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.edac.node">1</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag>
+				<tag>linux</tag>
+				<tag>memory</tag>
+				<tag>edac</tag>
+				<tag>drivers</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='43ea9fda-1917-4e2f-84b2-c2c2ca5dfb25'
+			class='system'>
+			<patterns>
+				<!-- linux-2.6.32.61/drivers/edac/edac_mc.c:
+				        edac_mc_printk(mci, KERN_WARNING,
+				        "CE page 0x%lx, offset 0x%lx, grain %d, syndrome "
+				        "0x%lx, row %d, channel %d, label \"%s\": %s\n",
+				        page_frame_number, offset_in_page,
+				        mci->csrows[row].grain, syndrome, row, channel,
+				        mci->csrows[row].channels[channel].label, msg);
+					-->
+				<pattern>kernel: EDAC @ESTRING:kernel.drivers.edac.controller::@ CE page @NUMBER:kernel.drivers.edac.page@, offset @NUMBER:kernel.drivers.edac.offset@, grain @NUMBER:kernel.drivers.edac.grain@, syndrome @NUMBER:kernel.drivers.edac.syndrome@, row @NUMBER:kernel.drivers.edac.row@, channel @NUMBER:kernel.drivers.edac.channel@, label @QSTRING:kernel.drivers.edac.label:"@: @ANYSTRING:kernel.drivers.edac.msg@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: EDAC MC1: CE page 0x816c34, offset 0x20, grain 0, syndrome 0xdf99, row 1, channel 0, label "": amd64_edac</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.edac.controller">MC1</test_value>
+						<test_value name="kernel.drivers.edac.page">0x816c34</test_value>
+						<test_value name="kernel.drivers.edac.offset">0x20</test_value>
+						<test_value name="kernel.drivers.edac.grain">0</test_value>
+						<test_value name="kernel.drivers.edac.syndrome">0xdf99</test_value>
+						<test_value name="kernel.drivers.edac.row">1</test_value>
+						<test_value name="kernel.drivers.edac.channel">0</test_value>
+						<test_value name="kernel.drivers.edac.label"></test_value>
+						<test_value name="kernel.drivers.edac.msg">amd64_edac</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="kernel">kernel: EDAC MC0: CE page 0x283, offset 0xce0, grain 8, syndrome 0x6ec3, row 0, channel 1, label "DIMM_B1": amd76x_edac</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.edac.controller">MC0</test_value>
+						<test_value name="kernel.drivers.edac.page">0x283</test_value>
+						<test_value name="kernel.drivers.edac.offset">0xce0</test_value>
+						<test_value name="kernel.drivers.edac.grain">8</test_value>
+						<test_value name="kernel.drivers.edac.syndrome">0x6ec3</test_value>
+						<test_value name="kernel.drivers.edac.row">0</test_value>
+						<test_value name="kernel.drivers.edac.channel">1</test_value>
+						<test_value name="kernel.drivers.edac.label">DIMM_B1</test_value>
+						<test_value name="kernel.drivers.edac.msg">amd76x_edac</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag>
+				<tag>linux</tag>
+				<tag>memory</tag>
+				<tag>edac</tag>
+				<tag>drivers</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='5801d7cc-1a9e-4935-b4e4-b710d89d309f'
+			class='system'>
+			<patterns>
+				<!-- linux-2.6.32.61/drivers/edac/amd64_edac.c:
+				      amd64_mc_printk(mci, KERN_ERR, "CE ERROR_ADDRESS= 0x%llx\n", SystemAddress);
+					-->
+				<pattern>kernel: EDAC amd64 @ESTRING:kernel.drivers.edac.controller::@ CE ERROR_ADDRESS= @NUMBER:kernel.drivers.edac.address@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: EDAC amd64 MC1: CE ERROR_ADDRESS= 0x816c30020</test_message>
+					<test_values>
+						<test_value name='kernel.drivers.edac.controller'>MC1</test_value>
+						<test_value name='kernel.drivers.edac.address'>0x816c30020</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag>
+				<tag>linux</tag>
+				<tag>memory</tag>
+				<tag>edac</tag>
+				<tag>drivers</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->
