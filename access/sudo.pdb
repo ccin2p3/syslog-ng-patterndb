@@ -7,7 +7,40 @@
     <pattern>sudo</pattern>
     <rules>
 
-      <rule provider="patterndb" id="ed8a54b4-d272-4bfb-a523-1eccd6f3fc7c" class="system">
+      <rule provider="patterndb" id="ed8a54b4-d272-4bfb-a523-1eccd6f3fc7c"
+      	context-id='sudo-command-${temp.sudo_username}'
+      	context-timeout='1'
+      	class="system">
+        <!-- login continued -->
+        <patterns>
+          <pattern>@ESTRING:temp.sudo_username: @: (command continued) @ANYSTRING:temp.sudo_command@</pattern>
+          <pattern>@SET:: @@ESTRING:temp.sudo_username: @: (command continued) @ANYSTRING:temp.sudo_command@</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program='sudo'> atlas : (command continued) ich/is/being/continued/on/the/next/line</test_message>
+            <test_values>
+              <test_value name='usracct.username'>root</test_value>
+              <test_value name='usracct.device'>atlas@unknown</test_value>
+              <test_value name='usracct.object'>/home/atlas$ /usr/bin/unlink /very/long/path/to/some/place/which/is/being/continued/on/the/next/line</test_value>
+            </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.username">${usracct.username}@1</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="usracct.device">${usracct.device}@1</value>
+          <value name="usracct.object">${usracct.object}@1${temp.sudo_command}</value>
+          <value name="secevt.verdict">ACCEPT</value>
+        </values>
+      </rule>
+
+      <rule provider="patterndb" id="ed8a54b4-d272-4bfb-a523-1eccd6f3fc7c"
+      	context-id='sudo-command-${temp.sudo_username}'
+      	context-timeout='1'
+      	class="system">
         <!-- login success -->
         <patterns>
           <!-- sudo logs the username right-aligned to 8 chars -->
@@ -26,11 +59,11 @@
            </test_values>
           </example>
           <example>
-          <test_message program="sudo">atlas : TTY=unknown ; PWD=/home/atlas ; USER=root ; COMMAND=/usr/bin/unlink /</test_message>
+            <test_message program="sudo">atlas : TTY=unknown ; PWD=/home/atlas ; USER=root ; COMMAND=/usr/bin/unlink /very/long/path/to/some/place/wh</test_message>
             <test_values>
               <test_value name="usracct.username">root</test_value>
               <test_value name="usracct.device">atlas@unknown</test_value>
-              <test_value name="usracct.object">/home/atlas$ /usr/bin/unlink /</test_value>
+              <test_value name="usracct.object">/home/atlas$ /usr/bin/unlink /very/long/path/to/some/place/wh</test_value>
            </test_values>
           </example>
         </examples>
@@ -47,7 +80,7 @@
           <tag>secevt</tag>
         </tags>
       </rule>
-
+      
       <rule provider="patterndb" id="693a8131-6a03-423a-9dc4-a310591b3420" class="system">
         <!-- login failure -->
         <patterns>
