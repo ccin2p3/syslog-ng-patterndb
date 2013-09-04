@@ -10,6 +10,7 @@
       <rule provider="patterndb" id="4dd5a329-da83-4876-a431-ddcb59c2858c" class="system">
         <patterns>
           <pattern>Accepted @ESTRING:usracct.authmethod: @for @ESTRING:usracct.username: @from @ESTRING:usracct.device: @port @ESTRING:: @@ANYSTRING:usracct.service@</pattern>
+          <pattern>[ID @NUMBER:usracct.sessionid@ auth.@ESTRING::]@ Accepted @ESTRING:usracct.authmethod: @for @ESTRING:usracct.username: @from @ESTRING:usracct.device: @port @ESTRING:: @@ANYSTRING:usracct.service@</pattern>
         </patterns>
         <examples>
           <example>
@@ -18,6 +19,15 @@
             <test_value name="usracct.username">bazsi</test_value>
             <test_value name="usracct.authmethod">password</test_value>
             <test_value name="usracct.device">127.0.0.1</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
+          <example>
+           <test_message program="sshd">[ID 800047 auth.info] Accepted publickey for acsss from 192.168.1.99 port 40386 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">acsss</test_value>
+            <test_value name="usracct.authmethod">publickey</test_value>
+            <test_value name="usracct.device">192.168.1.99</test_value>
             <test_value name="usracct.service">ssh2</test_value>
            </test_values>
           </example>
