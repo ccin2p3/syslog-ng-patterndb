@@ -1,0 +1,71 @@
+<patterndb version='4' pub_date='2013-09-04'>
+
+<ruleset name='xinetd' id='942b5f01-8dce-42b0-b4c2-3d0a67bca3b3'>
+	<patterns>
+		<pattern>xinetd</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='f307ef5e-8010-4937-80bc-13c763ae13c0'
+			class='application'
+			context-id='xinetd-${xinetd.service.name}-${xinetd.service.pid}'
+			context-scope='process'>
+			<patterns>
+				<pattern>EXIT: @ESTRING:xinetd.service.name: status=@@NUMBER:xinetd.service.status@ pid=@NUMBER:xinetd.service.pid@ duration=@ESTRING:xinetd.service.duration:(@sec)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="xinetd">EXIT: nrpe status=0 pid=18581 duration=0(sec)</test_message>
+					<test_values>
+						<test_value name="xinetd.service.name">nrpe</test_value>
+						<test_value name="xinetd.service.status">0</test_value>
+						<test_value name="xinetd.service.pid">18581</test_value>
+						<test_value name="xinetd.service.duration">0</test_value>
+						<test_value name="xinetd.service.source">::ffff:134.158.108.120</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="xinetd.service.source">${xinetd.service.source}@1</value>
+			</values>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='f307ef5e-8010-4937-80bc-13c763ae13c0'
+			class='application'
+			context-id='xinetd-${xinetd.service.name}-${xinetd.service.pid}'
+			context-timeout='10'
+			context-scope='process'>
+			<patterns>
+				<pattern>START: @ESTRING:xinetd.service.name: pid=@@NUMBER:xinetd.service.pid@ from=@IPvANY:xinetd.service.source@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="xinetd">START: nrpe pid=18581 from=::ffff:134.158.108.120</test_message>
+					<test_values>
+						<test_value name="xinetd.service.name">nrpe</test_value>
+						<test_value name="xinetd.service.pid">18581</test_value>
+						<test_value name="xinetd.service.source">::ffff:134.158.108.120</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<actions>
+				<action trigger='timeout'>
+					<message inherit-properties='TRUE'>
+						<values>
+							<value name="MESSAGE">patterndb: svc=${xinetd.service.name}; pid=${xinetd.service.pid}; src=${xinetd.service.source}; msg=xinetd service timeout after 10s</value>
+						</values>
+						<tags>
+							<tag>alert</tag>
+						</tags>
+					</message>
+				</action>
+			</actions>
+			<tags>
+				<tag>xinetd</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->
