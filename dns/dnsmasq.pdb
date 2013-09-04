@@ -1,0 +1,94 @@
+<patterndb version='4' pub_date='2013-09-04'>
+
+<ruleset name='dnsmaqsq' id='d995239d-b46d-4062-b314-3d5bc05e9e24'>
+	<patterns>
+		<pattern>dnsmasq</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='4f4e2c3a-62d9-4a88-ad4e-fcb7fdf63552'
+			class='system.daemon'
+			context-id='dnsmasq-dhcp-${dnsmasq.dhcp.mac}'
+			context-scope='process'>
+			<patterns>
+				<pattern>DHCPACK@QSTRING:dnsmasq.dhcp.dev:()@ @IPvANY:dnsmasq.dhcp.ip@ @MACADDR:dnsmasq.dhcp.mac@ @ANYSTRING:dnsmasq.dhcp.hostname@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="dnsmasq-dhcp">DHCPACK(br82) 10.158.4.7 fa:16:3e:5d:fa:55 myhostname</test_message>
+					<test_values>
+						<test_value name="dnsmasq.dhcp.dev">br82</test_value>
+						<test_value name="dnsmasq.dhcp.ip">10.158.4.7</test_value>
+						<test_value name="dnsmasq.dhcp.mac">fa:16:3e:5d:fa:55</test_value>
+						<test_value name="dnsmasq.dhcp.hostname">myhostname</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>dhcp</tag>
+				<tag>dns</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='9b2394d8-6674-4a0c-809a-061e37c84573'
+			class='system.daemon'
+			context-id='dnsmasq-dhcp-${dnsmasq.dhcp.mac}'
+			context-timeout='10'
+			context-scope='process'>
+			<patterns>
+				<pattern>DHCPREQUEST@QSTRING:dnsmasq.dhcp.dev:()@ @IPvANY:dnsmasq.dhcp.ip@ @MACADDR:dnsmasq.dhcp.mac@ </pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="dnsmasq-dhcp">DHCPREQUEST(br82) 10.158.4.7 fa:16:3e:5d:fa:55 </test_message>
+					<test_values>
+						<test_value name="dnsmasq.dhcp.dev">br82</test_value>
+						<test_value name="dnsmasq.dhcp.ip">10.158.4.7</test_value>
+						<test_value name="dnsmasq.dhcp.mac">fa:16:3e:5d:fa:55</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>dhcp</tag>
+				<tag>dns</tag>
+			</tags>
+			<actions>
+				<action trigger='timeout'>
+					<message inherit-properties='TRUE'>
+						<values>
+							<value name="MESSAGE">patterndb: dev=${dnsmasq.dhcp.dev}; ip=${dnsmasq.dhcp.ip}; mac=${dnsmasq.dhcp.mac}; msg=No DHCPACK has been issued after 10s</value>
+						</values>
+						<tags>
+							<tag>alert</tag>
+						</tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='e48a2b52-014f-4cf3-9e15-55ffdffb3763'
+			class='system.daemon'
+			context-id='dnsmasq-dhcp-${dnsmasq.dhcp.mac}'
+			context-scope='process'>
+			<patterns>
+				<pattern>DHCPDISCOVER@QSTRING:dnsmasq.dhcp.dev:()@ @MACADDR:dnsmasq.dhcp.mac@ no address available</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="dnsmasq-dhcp">DHCPDISCOVER(br76) fa:16:3e:4f:31:1a no address available</test_message>
+					<test_values>
+						<test_value name="dnsmasq.dhcp.dev">br76</test_value>
+						<test_value name="dnsmasq.dhcp.mac">fa:16:3e:4f:31:1a</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>dhcp</tag>
+				<tag>dns</tag>
+				<tag>alert</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->
