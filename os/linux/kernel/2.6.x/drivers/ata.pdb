@@ -166,6 +166,30 @@
 				<value name=".classifier.context-id">$CONTEXT_ID</value>
 			</values>
 		</rule>
+		<rule provider="wernli@in2p3.fr" id='52246cc5-86c6-401d-bf35-d5f209ec0669'
+			class='system'
+			context-id='kernel.drivers.ata.${kernel.drivers.ata.dev}'
+			context-timeout='10'
+			context-scope='program'>
+			<patterns>
+				<pattern>kernel: ata@ESTRING:kernel.drivers.ata.dev::@ failed command: @ANYSTRING:kernel.drivers.ata.command@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: ata1.00: failed command: READ FPDMA QUEUED</test_message>
+					<test_values>
+						<test_value name="kernel.drivers.ata.dev">1.00</test_value>
+						<test_value name="kernel.drivers.ata.command">READ FPDMA QUEUED</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>kernel</tag><tag>drivers</tag><tag>ata</tag><tag>hardware</tag>
+			</tags>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+		</rule>
 		<rule provider="wernli@in2p3.fr" id='656ba7a8-c79a-4a20-8437-03ff0c247ff0'
 			class='system'
 			context-id='kernel.drivers.ata.${kernel.drivers.ata.link}'

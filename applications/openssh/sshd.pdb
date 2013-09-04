@@ -473,6 +473,25 @@
           <pattern>error: PAM: Authentication failure for @ESTRING:.user: @from @IPvANY:.dict.Rhost@</pattern>
         </patterns>
       </rule>
+
+      <rule id='952cff74-0273-4840-b009-35ab827ea074' provider='wernli@in2p3.fr'
+        class='system'>
+        <!-- channels.c: error("connect_to %.100s port %d: failed.", c->connect_ctx.host, c->connect_ctx.port); -->
+        <patterns>
+          <pattern>error: connect_to @IPvANY:ssh.dest.ip@ port @NUMBER:ssh.dest.port@: failed.</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program='sshd'>error: connect_to 224.1.1.1 port 80: failed.</test_message>
+            <test_values>
+              <test_value name='ssh.dest.ip'>224.1.1.1</test_value>
+              <test_value name='ssh.dest.port'>80</test_value>
+            </test_values>
+          </example>
+        </examples>
+      </rule>
+
+      <!-- TODO: error("connect_to %.100s: unknown host (%s)", host, ssh_gai_strerror(gaierr)); -->
       
     </rules>
     

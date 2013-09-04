@@ -1,0 +1,44 @@
+<patterndb version='4' pub_date='2013-09-04'>
+
+<ruleset name='ipmi_msghandler' id='93329f83-3c44-4145-82b5-33ad8333ff45'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='9751bc76-8b7f-4cb4-a0bf-e0b414411122'
+			class='system'
+			context-id='ipmi_msghandler'
+			context-scope='program'>
+			<patterns>
+				<!-- linux-2.6.32.61/drivers/char/ipmi/ipmi_msghandler.c:
+						   printk(KERN_WARNING PFX "BMC returned incorrect response,"
+                " expected netfn %x cmd %x, got netfn %x cmd %x\n",
+                (msg->data[0] >> 2) | 1, msg->data[1],
+                msg->rsp[0] >> 2, msg->rsp[1]);
+					-->
+					<pattern program="kernel">kernel: IPMI message handler: BMC returned incorrect response, expected netfn @ESTRING:ipmi.msg.netfn.expected: @cmd @ESTRING:ipmi.msg.cmd.expected:,@ got netfn @ESTRING:ipmi.msg.netfn.value: @cmd @ANYSTRING:ipmi.msg.cmd.value@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program='kernel'>kernel: IPMI message handler: BMC returned incorrect response, expected netfn 7 cmd 1, got netfn 7 cmd 35</test_message>
+					<test_values>
+						<test_value name="ipmi.msg.netfn.expected">7</test_value>
+						<test_value name="ipmi.msg.netfn.value">7</test_value>
+						<test_value name="ipmi.msg.cmd.expected">1</test_value>
+						<test_value name="ipmi.msg.cmd.value">35</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>ipmi</tag>
+				<tag>kernel</tag>
+				<tag>drivers</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->
