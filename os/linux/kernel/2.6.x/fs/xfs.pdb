@@ -13,6 +13,8 @@
 			<patterns>
 				<!-- xfs_rw.c: meta-data dev %s block 0x%llx       (\"%s\") error %d buf count %zd -->
 				<pattern>kernel: I/O error in filesystem ("@ESTRING:kernel.fs.dev:"@) meta-data dev @ESTRING:: block@ @NUMBER:kernel.fs.block@       ("@ESTRING:kernel.fs.xfs.func:")@ error @NUMBER:kernel.fs.xfs.error@ buf count @NUMBER:kernel.fs.xfs.bufcount@</pattern>
+				<!-- couldnt't find this in the kernel source code -->
+				<pattern>kernel: XFS (@ESTRING:kernel.fs.dev:)@: metadata I/O error: block @NUMBER:kernel.fs.block@@SET:: @("@ESTRING:kernel.fs.xfs.func:")@ error @NUMBER:kernel.fs.xfs.error@ buf count @NUMBER:kernel.fs.xfs.bufcount@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -33,6 +35,16 @@
 						<test_value name="kernel.fs.xfs.func">xlog_iodone</test_value>
 						<test_value name="kernel.fs.xfs.error">5</test_value>
 						<test_value name="kernel.fs.xfs.bufcount">32768</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="kernel">kernel: XFS (dm-6): metadata I/O error: block 0x189850b0 ("xfs_trans_read_buf") error 5 buf count 4096</test_message>
+					<test_values>
+						<test_value name="kernel.fs.dev">dm-6</test_value>
+						<test_value name="kernel.fs.block">0x189850b0</test_value>
+						<test_value name="kernel.fs.xfs.func">xfs_trans_read_buf</test_value>
+						<test_value name="kernel.fs.xfs.error">5</test_value>
+						<test_value name="kernel.fs.xfs.bufcount">4096</test_value>
 					</test_values>
 				</example>
 			</examples>

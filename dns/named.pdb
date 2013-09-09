@@ -23,6 +23,23 @@
 				</example>
 			</examples>
 		</rule>
+		<rule provider="wernli@in2p3.fr" id='75c57e45-0c0a-436d-bf84-1dd06876b718'
+			class='system.daemon'
+			context-id='named'
+			context-scope="process">
+			<patterns>
+				<pattern>zone @ESTRING:system.daemon.named.zone::@ @ESTRING:system.daemon.named.entry::@ bad owner name (check-names)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="named">zone in2p3.fr/IN: ccv7000_01_2.in2p3.fr/A: bad owner name (check-names)</test_message>
+					<test_values>
+						<test_value name="system.daemon.named.entry">ccv7000_01_2.in2p3.fr/A</test_value>
+						<test_value name="system.daemon.named.zone">in2p3.fr/IN</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
 	</rules>
 </ruleset>
 
