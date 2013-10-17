@@ -8,6 +8,7 @@
       <pattern>crond</pattern>
       <pattern>imap</pattern>
       <pattern>login</pattern>
+      <pattern>pam</pattern>
       <pattern>pure-ftpd</pattern>
       <pattern>proftpd</pattern>
       <pattern>sshd</pattern>
@@ -107,7 +108,8 @@
                  (failure->user && failure->user[0] != '\0')
                   ? " user=" : "", failure->user
                 ); -->
-          <pattern>PAM @NUMBER:temp.auth.count@ more authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser= rhost=@ESTRING:temp.rhost: @user=@ESTRING:usracct.username:@</pattern>
+          <pattern>PAM @NUMBER:temp.auth.count@ more authentication failure; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser= rhost=@ESTRING:usracct.rhost: @user=@ESTRING:usracct.username:@</pattern>
+          <pattern>PAM @NUMBER:temp.auth.count@ more authentication failures; logname=@ESTRING:temp.logname: @uid=@NUMBER::@ euid=@NUMBER::@ tty=@ESTRING:temp.tty: @ruser= rhost=@ESTRING:usracct.rhost: @user=@ESTRING:usracct.username:@</pattern>
         </patterns>
         <examples>
           <example>
@@ -116,6 +118,16 @@
               <test_value name="usracct.application">pam_afs</test_value>
               <test_value name="usracct.username">ojuillet</test_value>
               <test_value name="usracct.device">ojuillet@ssh</test_value>
+              <test_value name="usracct.rhost">acaen-651-1-216-63.w86-220.abo.wanadoo.fr</test_value>
+            </test_values>
+          </example>
+          <example>
+            <test_message program="sshd">PAM 3 more authentication failures; logname= uid=0 euid=0 tty=ssh ruser= rhost=117.41.237.222 user=root</test_message>
+            <test_values>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="usracct.username">root</test_value>
+              <test_value name="usracct.device">root@ssh</test_value>
+              <test_value name="usracct.rhost">117.41.237.222</test_value>
             </test_values>
           </example>
         </examples>
@@ -292,6 +304,37 @@
           <tag>secevt</tag>
         </tags>
       </rule>
+      <rule provider="wernli@in2p3.fr" id='4d500aed-a008-4324-8f18-94e815287220'
+        class='system'
+        context-scope='process'>
+        <patterns>
+          <!-- modules/pam_unix/support.c:
+              pam_syslog(pamh, LOG_ALERT, "service(%s) ignoring max retries; %d > %d",
+                service == NULL ? "**unknown**" : (const char *)service,
+                failure->count, UNIX_MAX_RETRIES);
+          -->
+          <pattern>PAM service@QSTRING:usracct.application:()@ ignoring max retries; @ANYSTRING:root.details@</pattern>
+        </patterns>
+        <examples>
+          <example>
+            <test_message program="sshd">PAM service(sshd) ignoring max retries; 4 > 3</test_message>
+            <test_values>
+              <test_value name="usracct.application">sshd</test_value>
+              <test_value name="root.details">4 > 3</test_value>
+           </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
+
 
     </rules>
   </ruleset>

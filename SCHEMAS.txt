@@ -23,6 +23,37 @@ Attributes:
 	usracct.device		N		the device that was used for the access if applicable (client computer, terminal line, etc)
 	usracct.authmethod	N		authentication method
 
+Schema: hwevt
+Status: experimental
+Description: Events related to hardware interruptions
+  This schema is used to describe events related to hardware. It is a mix
+  between AIX errpt and Solaris FMD events
+Attributes:
+  NV par name     Mandatory Description
+  hwevt.logsrc    Y         Channel through which event was logged (kern, ipmi, snmp, ...)
+  hwevt.rsname    Y         Name of impacted resource (cpu-0, DIMM1, 42, ...) SOURCE
+  hwevt.rsclass   Y         Class of impacted resource (cpu, memory, disk, ...)
+  hwevt.rstype    Y         Type of impacted resource (PEND,PERF,TEMP,PERM,UNKN,INFO)
+                             == (pending, performance, temporary, permanent, ..)
+  hwevt.rsid      N         ID to uniquely identify this resource (e.g. serial number)
+  hwevt.evtid     N         ID to uniquely identify this event
+  hwevt.impact    N         Description of impact this evt has on system
+  hwevt.reqact    N         Description of required action to assess or resolve the problem
+                             
+Schema: krnacct
+Status: experimental
+Description: Events related to kernel messages
+  This schema is used in order to account for kernel events, and in
+  particular to indentify kernel subsystems
+Attributes:
+  NV par name     Mandatory Description
+  krnacct.name    Y         Kernel type (Linux, AIX, Solaris, ...)
+  krnacct.ver     Y         Kernel version (3.10, 5.11, 6.2, ...)
+  krnacct.rsclass Y         Subsystem or resource class (drivers, fs, block, ...)
+  krnacct.rstype  Y         Subsystem or resource type (ata-dev, ata-link, xfs, blk-core, ...)
+  krnacct.rsname  Y         Resource name (ata2.00, ata2, dm3, sda2, ...)
+  krnacct.rsid    N         Resource ID to uniquely identify the resource (e.g. motherboard=0/chip=0/memory-controller=0/dram-channel=1/chip-select=0)
+  krnacct.evtid   N         ID to uniquely identify the event (e.g. id from errpt or fmd)
 
 Schema: flowevt
 Status: experimental

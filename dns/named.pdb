@@ -32,10 +32,47 @@
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="named">zone in2p3.fr/IN: ccv7000_01_2.in2p3.fr/A: bad owner name (check-names)</test_message>
+					<test_message program="named">zone my.zone.tld/IN: foo.bar.my.zone.tld/A: bad owner name (check-names)</test_message>
 					<test_values>
-						<test_value name="system.daemon.named.entry">ccv7000_01_2.in2p3.fr/A</test_value>
-						<test_value name="system.daemon.named.zone">in2p3.fr/IN</test_value>
+						<test_value name="system.daemon.named.entry">foo.bar.my.zone.tld/A</test_value>
+						<test_value name="system.daemon.named.zone">my.zone.tld/IN</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='f0c03ef7-f887-4046-97ec-809f1bccd844'
+			class='system.daemon'
+			context-id='named'
+			context-scope="process">
+			<patterns>
+				<pattern>unexpected RCODE @QSTRING:system.daemon.named.rcode:()@ resolving '@ESTRING:system.daemon.named.entry:'@: @IPvANY:system.daemon.named.nameserver.ip@#@NUMBER:system.daemon.named.nameserver.port@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="named">unexpected RCODE (REFUSED) resolving 'boro.cat.cbpf.br/A/IN': 152.84.253.220#53</test_message>
+					<test_values>
+						<test_value name="system.daemon.named.entry">boro.cat.cbpf.br/A/IN</test_value>
+						<test_value name="system.daemon.named.rcode">REFUSED</test_value>
+						<test_value name="system.daemon.named.nameserver.ip">152.84.253.220</test_value>
+						<test_value name="system.daemon.named.nameserver.port">53</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='b08c87d1-e44a-4198-8476-b7a610bf13cb'
+			class='system.daemon'
+			context-id='named'
+			context-scope="process">
+			<patterns>
+				<pattern>connection refused resolving '@ESTRING:system.daemon.named.entry:'@: @IPvANY:system.daemon.named.nameserver.ip@#@NUMBER:system.daemon.named.nameserver.port@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="named">connection refused resolving 'my.fqdn.at.tld/AAAA/IN': 10.0.69.163#53</test_message>
+					<test_values>
+						<test_value name="system.daemon.named.entry">my.fqdn.at.tld/AAAA/IN</test_value>
+						<test_value name="system.daemon.named.nameserver.ip">10.0.69.163</test_value>
+						<test_value name="system.daemon.named.nameserver.port">53</test_value>
 					</test_values>
 				</example>
 			</examples>
