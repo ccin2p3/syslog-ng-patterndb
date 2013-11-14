@@ -86,6 +86,7 @@
           <value name="usracct.type">login</value>
           <value name="usracct.sessionid">$PID</value>
           <value name="usracct.device">${usracct.username}@@${temp.tty}</value>
+          <value name="usracct.rhost">${temp.rhost}</value>
           <value name="secevt.verdict">REJECT</value>
         </values>
         <tags>
