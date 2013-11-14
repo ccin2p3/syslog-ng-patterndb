@@ -34,6 +34,7 @@
       <description></description>
         <patterns>
           <pattern>Accepted @ESTRING:ssh.auth.method: @for @ESTRING:ssh.auth.user: @from @IPvANY:ssh.src.ip@ port @NUMBER:ssh.src.port@ @ANYSTRING:ssh.proto@</pattern>
+          <pattern>[ID @NUMBER:usracct.sessionid@ auth.@ESTRING::]@ Accepted @ESTRING:ssh.auth.method: @for @ESTRING:ssh.auth.user: @from @ESTRING:ssh.src.ip: @port @ESTRING:: @@ANYSTRING:ssh.proto@</pattern>
         </patterns>
         <values>
         </values>
@@ -48,7 +49,39 @@
            <test_value name="ssh.proto">ssh2</test_value>
           </test_values>
          </example>
+         <example>
+           <test_message program="sshd">Accepted password for bazsi from 127.0.0.1 port 48650 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">bazsi</test_value>
+            <test_value name="usracct.authmethod">password</test_value>
+            <test_value name="usracct.device">127.0.0.1</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
+          <example>
+           <test_message program="sshd">[ID 800047 auth.info] Accepted publickey for acsss from 192.168.1.99 port 40386 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">acsss</test_value>
+            <test_value name="usracct.authmethod">publickey</test_value>
+            <test_value name="usracct.device">192.168.1.99</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
         </examples>
+        <values>
+          <value name="usracct.authmethod">${ssh.auth.method}</value>
+          <value name="usracct.username">${ssh.auth.user}</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="usracct.type">login</value>
+          <value name="usracct.device">${ssh.src.ip}</value>
+          <value name="usracct.rhost">${ssh.src.ip}</value>
+          <value name="usracct.service">${ssh.proto}</value>
+          <value name="secevt.verdict">ACCEPT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='355661de-d207-40ae-b0b8-8af1286e0ab1' provider='balabit'>
@@ -100,6 +133,71 @@
          </example>
         </examples>
       </rule>
+      
+            <rule provider="patterndb" id="1a8891ff-6b86-4da5-b937-b789c76ef353" class="system">
+        <patterns>
+          <pattern>Failed @ESTRING:usracct.authmethod: @for invalid user @ESTRING:usracct.username: @from @ESTRING:usracct.device: @port @ESTRING:: @@ANYSTRING:usracct.service@</pattern>
+        </patterns>
+        <examples>
+          <example>
+           <test_message program="sshd">Failed password for invalid user siem from 127.0.0.1 port 37397 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">siem</test_value>
+            <test_value name="usracct.authmethod">password</test_value>
+            <test_value name="usracct.device">127.0.0.1</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
+
+      <rule provider="patterndb" id="406d48a5-fef4-4367-9b5a-5b20efeed22e" class="system">
+        <patterns>
+          <pattern>Failed @ESTRING:usracct.authmethod: @for illegal user @ESTRING:usracct.username: @from @ESTRING:usracct.device: @port @ESTRING:ssh.src.port: @@ANYSTRING:usracct.service@</pattern>
+        </patterns>
+        <examples>
+         <example>
+          <test_message program="sshd">Failed keyboard-interactive/pam for illegal user user from 200.200.200.200 port 49803 ssh</test_message>
+          <test_values>
+           <test_value name="usracct.authmethod">keyboard-interactive/pam</test_value>
+           <test_value name="usracct.username">user</test_value>
+           <test_value name="usracct.device">200.200.200.200</test_value>
+           <test_value name="ssh.src.port">49803</test_value>
+           <test_value name="usracct.service">ssh</test_value>
+          </test_values>
+         </example>
+          <example>
+           <test_message program="sshd">Failed password for illegal user admin from ::ffff:10.10.10.135 port 45629 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">admin</test_value>
+            <test_value name="usracct.authmethod">password</test_value>
+            <test_value name="usracct.device">::ffff:10.10.10.135</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
+        </examples>
+        <values>
+          <value name="usracct.type">login</value>
+          <value name="usracct.rhost">${usracct.device}</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
+      </rule>
 
       <rule class='violation' id='failed-1' provider='balage'>
       <description></description>
@@ -110,16 +208,39 @@
         </values>
         <examples>
          <example>
-          <test_message program="sshd">Failed keyboard-interactive/pam for illegal user user from 200.200.200.200 port 49803 ssh</test_message>
-          <test_values>
-           <test_value name="ssh.auth.method">keyboard-interactive/pam</test_value>
-           <test_value name="ssh.auth.user">illegal user user</test_value>
-           <test_value name="ssh.src.ip">200.200.200.200</test_value>
-           <test_value name="ssh.src.port">49803</test_value>
-           <test_value name="ssh.proto">ssh</test_value>
-          </test_values>
-         </example>
+           <test_message program="sshd">Failed password for bazsi from 127.0.1.1 port 44637 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">bazsi</test_value>
+            <test_value name="usracct.authmethod">password</test_value>
+            <test_value name="usracct.device">127.0.1.1</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
+          <example>
+           <test_message program="sshd">Failed password for root from ::ffff:10.10.10.4 port 4027 ssh2</test_message>
+           <test_values>
+            <test_value name="usracct.username">root</test_value>
+            <test_value name="usracct.authmethod">password</test_value>
+            <test_value name="usracct.device">::ffff:10.10.10.4</test_value>
+            <test_value name="usracct.service">ssh2</test_value>
+           </test_values>
+          </example>
         </examples>
+        <values>
+          <value name="usracct.authmethod">${ssh.auth.method}</value>
+          <value name="usracct.username">${ssh.auth.user}</value>
+          <value name="usracct.device">${ssh.src.ip}</value>
+          <value name="usracct.rhost">${ssh.src.ip}</value>
+          <value name="usracct.service">${ssh.proto}</value>
+          <value name="usracct.type">login</value>
+          <value name="usracct.sessionid">$PID</value>
+          <value name="usracct.application">$PROGRAM</value>
+          <value name="secevt.verdict">REJECT</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='violation' id='d2971c6d-f60e-4afd-96e8-996a4d9e4f49' provider='balabit'>
@@ -181,6 +302,15 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.username">${ssh.auth.user}</value>
+          <value name="usracct.rhost">${ssh.src.host}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='ba34fcad-7eaf-402e-80eb-9edbf29fbc1c' provider='balabit'>
@@ -199,6 +329,14 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.rhost">${ssh.src.host}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='af564551-0b79-46b9-bd60-08d8e29f4eb2' provider='balabit'>
@@ -238,6 +376,14 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.rhost">${ssh.src.host}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='bda97a7d-5e8f-4649-8045-e44262bfed98' provider='balabit'>
@@ -272,6 +418,14 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.username">${ssh.auth.user}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='d476d4d1-031c-4336-825e-0d758774b9b1' provider='balabit'>
@@ -290,6 +444,14 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.rhost">${ssh.src.host}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='50aac456-6ebb-4826-88fc-e5839366dcf8' provider='balabit'>
@@ -344,6 +506,15 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.rhost">${ssh.src.host}</value>
+          <value name="usracct.username">${ssh.auth.user}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule class='system' id='fa670c30-6b67-4f0b-b69a-1f6e7c7be75c' provider='balabit'>
@@ -422,6 +593,15 @@
           </test_values>
          </example>
         </examples>
+        <values>
+          <value name="secevt.verdict">REJECT</value>
+          <value name="usracct.rhost">${ssh.src.ip}</value>
+          <value name="usracct.username">${ssh.auth.user}</value>
+        </values>
+        <tags>
+          <tag>usracct</tag>
+          <tag>secevt</tag>
+        </tags>
       </rule>
 
       <rule id="sshd-2" class="system" provider="balage">
