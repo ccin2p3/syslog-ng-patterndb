@@ -10,9 +10,16 @@
 			context-id="agetty"
 			context-scope="program">
 			<patterns>
-				<pattern>tty@ESTRING:system.tty::@ ioctl: Input/output error</pattern>
+				<pattern>tty@ESTRING:appacct.rsid::@ ioctl: Input/output error</pattern>
 			</patterns>
-			<tags><tag>alert</tag></tags>
+			<values>
+				<value name='appacct.rsname'>tty${appacct.rsid}</value>
+				<value name='appacct.rsclass'>ioerr</value>
+			</values>
+			<tags>
+				<tag>alert</tag>
+				<tag>appacct</tag>
+			</tags>
 		</rule>
 	</rules>
 </ruleset>
@@ -34,25 +41,31 @@
 					(cmd >> _IOC_SIZESHIFT) & _IOC_SIZEMASK,
 					(unsigned int)arg, fn);
 				-->
-				<pattern>kernel: ioctl32(@ESTRING:kernel.fs.compat_ioctl.process::@@NUMBER:kernel.fs.compat_ioctl.pid@): Unknown cmd fd(@NUMBER:kernel.fs.compat_ioctl.fd@) cmd(@ESTRING:kernel.fs.compat_ioctl.cmd:)@{t:@ESTRING:kernel.fs.compat_ioctl.t:;@sz:@ESTRING:kernel.fs.compat_ioctl.sz:}@ arg(@ESTRING:kernel.fs.compat_ioctl.arg:)@ on @ANYSTRING:kernel.fs.compat_ioctl.file@</pattern>
+				<pattern>kernel: ioctl32(@ESTRING:krnacct.process::@@NUMBER:krnacct.pid@): Unknown cmd fd(@NUMBER:krnacct.fd@) cmd(@ESTRING:krnacct.cmd:)@{t:@ESTRING:krnacct.t:;@sz:@ESTRING:krnacct.sz:}@ arg(@ESTRING:krnacct.arg:)@ on @ANYSTRING:krnacct.file@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='kernel'>kernel: ioctl32(athena.py:5619): Unknown cmd fd(129) cmd(00001268){t:12;sz:0} arg(ffdc84dc) on /scratch/9103162.1.huge/home_crm02_184566319/oradiag_atlas050/diag/clients/user_atlas050/host_2816692524_76/metadata/INC_METER_PK_IMPTS.ams</test_message>
 					<test_values>
-						<test_value name='kernel.fs.compat_ioctl.process'>athena.py</test_value>
-						<test_value name='kernel.fs.compat_ioctl.pid'>5619</test_value>
-						<test_value name='kernel.fs.compat_ioctl.fd'>129</test_value>
-						<test_value name='kernel.fs.compat_ioctl.cmd'>00001268</test_value>
-						<test_value name='kernel.fs.compat_ioctl.t'>12</test_value>
-						<test_value name='kernel.fs.compat_ioctl.sz'>0</test_value>
-						<test_value name='kernel.fs.compat_ioctl.arg'>ffdc84dc</test_value>
-						<test_value name='kernel.fs.compat_ioctl.file'>/scratch/9103162.1.huge/home_crm02_184566319/oradiag_atlas050/diag/clients/user_atlas050/host_2816692524_76/metadata/INC_METER_PK_IMPTS.ams</test_value>
+						<test_value name='krnacct.process'>athena.py</test_value>
+						<test_value name='krnacct.pid'>5619</test_value>
+						<test_value name='krnacct.fd'>129</test_value>
+						<test_value name='krnacct.cmd'>00001268</test_value>
+						<test_value name='krnacct.t'>12</test_value>
+						<test_value name='krnacct.sz'>0</test_value>
+						<test_value name='krnacct.arg'>ffdc84dc</test_value>
+						<test_value name='krnacct.file'>/scratch/9103162.1.huge/home_crm02_184566319/oradiag_atlas050/diag/clients/user_atlas050/host_2816692524_76/metadata/INC_METER_PK_IMPTS.ams</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name='krnacct.name'>Linux</value>
+				<value name='krnacct.rsclass'>fs</value>
+				<value name='krnacct.rstype'>compat</value>
+				<value name='krnacct.rsname'>ioctl</value>
+			</values>
 			<tags>
-				<tag>kernel</tag><tag>compat</tag><tag>ioctl</tag><tag>ioctl32</tag><tag>fs</tag>
+				<tag>krnacct</tag>
 			</tags>
 		</rule>
 	</rules>
@@ -72,26 +85,29 @@
 						 printk(KERN_WARNING "%s: %d callbacks suppressed\n",
 			              __func__, rs->missed);
 				--> 
-				<pattern>kernel: __ratelimit: @NUMBER:kernel.lib.ratelimit.limit@ callbacks suppressed</pattern>
+				<pattern>kernel: __ratelimit: @NUMBER:krnacct.limit@ callbacks suppressed</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='kernel'>kernel: __ratelimit: 1 callbacks suppressed</test_message>
 					<test_values>
-						<test_value  name='kernel.lib.ratelimit.limit'>1</test_value>
+						<test_value  name='krnacct.limit'>1</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name='krnacct.name'>Linux</value>
+				<value name='krnacct.rsclass'>lib</value>
+				<value name='krnacct.rstype'>ratelimit</value>
+			</values>
+			<tags>
+				<tag>krnacct</tag>
+			</tags>
 		</rule>
 	</rules>
 </ruleset>
 
 </patterndb>
-
-<!-- TODO
-kernel: hda: dma_timer_expiry: dma status == 0x21
-
--->
 
 <!-- vim:ft=xml
   -->

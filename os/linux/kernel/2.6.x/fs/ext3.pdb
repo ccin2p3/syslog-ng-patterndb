@@ -7,36 +7,37 @@
 	<rules>
 		<rule provider="wernli@in2p3.fr" id='e0768569-f46a-4c5a-94df-3d833c2073ac'
 			class='system'
-			context-id='kernel.fs.ext3.dev.${kernel.fs.ext3.dev}'
+			context-id='kernel.fs.ext3.dev.${krnacct.rsname}'
 			context-timeout='20'
 			context-scope='program'>
 			<patterns>
-				<pattern>EXT3-fs error (device @ESTRING:kernel.fs.ext3.dev:)@: @ESTRING:kernel.fs.ext3.func::@ @ANYSTRING:kernel.fs.ext3.desc@</pattern>
+				<pattern>EXT3-fs error (device @ESTRING:krnacct.rsname:)@: @ESTRING:krnacct.func::@ @ANYSTRING:krnacct.desc@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='kernel'>EXT3-fs error (device vda4): ext3_find_entry: reading directory #112226 offset 0</test_message>
 					<test_values>
-						<test_value name="kernel.fs.ext3.dev">vda4</test_value>
-						<test_value name="kernel.fs.ext3.func">ext3_find_entry</test_value>
-						<test_value name="kernel.fs.ext3.desc">reading directory #112226 offset 0</test_value>
+						<test_value name="krnacct.rsname">vda4</test_value>
+						<test_value name="krnacct.func">ext3_find_entry</test_value>
+						<test_value name="krnacct.desc">reading directory #112226 offset 0</test_value>
 					</test_values>
 				</example>
 				<example>
 					<test_message program='kernel'>EXT3-fs error (device dm-1): ext3_journal_start_sb: Detected aborted journal</test_message>
 					<test_values>
-						<test_value name="kernel.fs.ext3.dev">dm-1</test_value>
-						<test_value name="kernel.fs.ext3.func">ext3_journal_start_sb</test_value>
-						<test_value name="kernel.fs.ext3.desc">Detected aborted journal</test_value>
+						<test_value name="krnacct.rsname">dm-1</test_value>
+						<test_value name="krnacct.func">ext3_journal_start_sb</test_value>
+						<test_value name="krnacct.desc">Detected aborted journal</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.rsclass">fs</value>
+				<value name="krnacct.rstype">buffer</value>
 			</values>
 			<tags>
-				<tag>kernel</tag>
-				<tag>fs</tag>
+				<tag>krnacct</tag>
 			</tags>
 			<actions>
 				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>

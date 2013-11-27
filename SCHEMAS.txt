@@ -55,6 +55,20 @@ Attributes:
   krnacct.rsid    N         Resource ID to uniquely identify the resource (e.g. motherboard=0/chip=0/memory-controller=0/dram-channel=1/chip-select=0)
   krnacct.evtid   N         ID to uniquely identify the event (e.g. id from errpt or fmd)
 
+Schema: appacct
+Status: experimental
+Description: Events related to userland application messages
+Attributes:
+  NV par name      Mandatory Description
+  appacct.name     Y         Application name (if different from $PROGRAM)
+  appacct.ver      N         Application version
+  appacct.rsname   N         Subsystem or resource name (ttyS0, plop, ...)
+  appacct.rsclass  N         Subsystem or resource class (config, runtime, signal, ...)
+  appacct.rsid     N         Resource ID to uniquely identify the resource (e.g. user=123,decision=yes,foo=bar)
+  appacct.fct      N         Function name (handle_process, myproc_foo, ...)
+  appacct.duration N         Duration in seconds of event
+  appacct.msg      N         Message
+
 Schema: flowevt
 Status: experimental
 Description: Events related to an IP flow

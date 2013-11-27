@@ -7,30 +7,32 @@
 	<rules>
 		<rule provider="wernli@in2p3.fr" id='4108122c-b9f2-4ca6-a284-75bfbf744c6c'
 			class='system'
-			context-id='kernel.fs.buffer.dev.${kernel.fs.buffer.dev}'
+			context-id='kernel.fs.buffer.dev.${krnacct.rsname}'
 			context-timeout='10'
 			context-scope="program">
 			<patterns>
 				<!-- printk(KERN_ERR "Buffer I/O error on device %s, logical block %Lu\n",
 						 	      bdevname(bh->b_bdev, b), (unsigned long long)bh->b_blocknr);
 				-->
-				<pattern>Buffer I/O error on device @ESTRING:kernel.fs.buffer.dev:,@ logical block @NUMBER:kernel.fs.buffer.blk@</pattern>
+				<pattern>Buffer I/O error on device @ESTRING:krnacct.rsname:,@ logical block @NUMBER:krnacct.blk@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="kernel">Buffer I/O error on device dm-6, logical block 64557071</test_message>
 					<test_values>
-						<test_value name="kernel.fs.buffer.dev">dm-6</test_value>
-						<test_value name="kernel.fs.buffer.blk">64557071</test_value>
+						<test_value name="krnacct.rsname">dm-6</test_value>
+						<test_value name="krnacct.blk">64557071</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.rsid">${krnacct.blk}</value>
+				<value name="krnacct.rsclass">fs</value>
+				<value name="krnacct.rstype">buffer</value>
 			</values>
 			<tags>
-				<tag>kernel</tag>
-				<tag>fs</tag>
+				<tag>krnacct</tag>
 			</tags>
 			<actions>
 				<action condition='level(err..emerg)' rate='1/600' trigger='timeout'>

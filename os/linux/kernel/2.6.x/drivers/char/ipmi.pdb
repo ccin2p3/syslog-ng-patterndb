@@ -16,23 +16,27 @@
                 (msg->data[0] >> 2) | 1, msg->data[1],
                 msg->rsp[0] >> 2, msg->rsp[1]);
 					-->
-					<pattern program="kernel">kernel: IPMI message handler: BMC returned incorrect response, expected netfn @ESTRING:ipmi.msg.netfn.expected: @cmd @ESTRING:ipmi.msg.cmd.expected:,@ got netfn @ESTRING:ipmi.msg.netfn.value: @cmd @ANYSTRING:ipmi.msg.cmd.value@</pattern>
+					<pattern program="kernel">kernel: IPMI message handler: BMC returned incorrect response, expected netfn @ESTRING:krnacct.netfn_exp: @cmd @ESTRING:krnacct.cmd_exp:,@ got netfn @ESTRING:krnacct.netfn_val: @cmd @ANYSTRING:krnacct.cmd_val@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='kernel'>kernel: IPMI message handler: BMC returned incorrect response, expected netfn 7 cmd 1, got netfn 7 cmd 35</test_message>
 					<test_values>
-						<test_value name="ipmi.msg.netfn.expected">7</test_value>
-						<test_value name="ipmi.msg.netfn.value">7</test_value>
-						<test_value name="ipmi.msg.cmd.expected">1</test_value>
-						<test_value name="ipmi.msg.cmd.value">35</test_value>
+						<test_value name="krnacct.netfn_exp">7</test_value>
+						<test_value name="krnacct.netfn_val">7</test_value>
+						<test_value name="krnacct.cmd_exp">1</test_value>
+						<test_value name="krnacct.cmd_val">35</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.rsclass">drivers</value>
+				<value name="krnacct.rstype">ipmi</value>
+				<value name="krnacct.rsname">msghandler</value>
+			</values>
 			<tags>
-				<tag>ipmi</tag>
-				<tag>kernel</tag>
-				<tag>drivers</tag>
+				<tag>krnacct</tag>
 			</tags>
 		</rule>
 	</rules>

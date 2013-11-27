@@ -6,34 +6,36 @@
 	</patterns>
 	<rules>
 		<rule provider="wernli@in2p3.fr" id='75035a2d-44f7-4327-a1a1-61b13cac4fba'
-			class='system'
+			class='system.daemon'
 			context-id='system.init'
 			context-scope="program">
 			<patterns>
-				<pattern>@ESTRING:system.init.console.type: (@@ESTRING:system.init.console.path:)@ main process (@NUMBER:system.init.console.pid@) killed by @STRING:system.init.console.signal@ signal</pattern>
+				<pattern>@ESTRING:appacct.rsclass: (@@ESTRING:appacct.rsid:)@ main process (@NUMBER:appacct.pid@) killed by @STRING:sigacct.name@ signal</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="init">tty (/dev/tty6) main process (12900) killed by TERM signal</test_message>
 					<test_values>
-						<test_value name="system.init.console.type">tty</test_value>
-						<test_value name="system.init.console.path">/dev/tty6</test_value>
-						<test_value name="system.init.console.pid">12900</test_value>
-						<test_value name="system.init.console.signal">TERM</test_value>
+						<test_value name="appacct.rsclass">tty</test_value>
+						<test_value name="appacct.rsid">/dev/tty6</test_value>
+						<test_value name="appacct.pid">12900</test_value>
+						<test_value name="sigacct.name">TERM</test_value>
 					</test_values>
 				</example>
 				<example>
 					<test_message program="init">serial (ttyS0) main process (19802) killed by TERM signal</test_message>
 					<test_values>
-						<test_value name="system.init.console.type">serial</test_value>
-						<test_value name="system.init.console.path">ttyS0</test_value>
-						<test_value name="system.init.console.pid">19802</test_value>
-						<test_value name="system.init.console.signal">TERM</test_value>
+						<test_value name="appacct.rsclass">serial</test_value>
+						<test_value name="appacct.rsid">ttyS0</test_value>
+						<test_value name="appacct.pid">19802</test_value>
+						<test_value name="sigacct.name">TERM</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<tags>
 				<tag>alert</tag>
+				<tag>appacct</tag>
+				<tag>sigacct</tag>
 			</tags>
 		</rule>
 	</rules>

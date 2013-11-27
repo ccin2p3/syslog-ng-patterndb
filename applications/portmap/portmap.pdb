@@ -10,23 +10,26 @@
 			context-id='portmap'
 			context-scope="process">
 			<patterns>
-				<pattern>connect from @IPvANY:system.daemon.portmap.source.ip@ to callit(@ESTRING:system.daemon.portmap.service:)@: @ANYSTRING:system.daemon.portmap.error@</pattern>
+				<pattern>connect from @IPvANY:flowevt.src_ip@ to callit(@ESTRING:appacct.rsclass:)@: @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="portmap">connect from 10.0.105.226 to callit(ypserv): request from unauthorized host</test_message>
 					<test_values>
-						<test_value name="system.daemon.portmap.source.ip">10.0.105.226</test_value>
-						<test_value name="system.daemon.portmap.service">ypserv</test_value>
-						<test_value name="system.daemon.portmap.error">request from unauthorized host</test_value>
+						<test_value name="flowevt.src_ip">10.0.105.226</test_value>
+						<test_value name="appacct.rsclass">ypserv</test_value>
+						<test_value name="details">request from unauthorized host</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
 				<value name="secevt.verdict">REJECT</value>
+				<value name="appacct.name">$PROGRAM</value>
 			</values>
 			<tags>
 				<tag>secevt</tag>
+				<tag>flowevt</tag>
+				<tag>appacct</tag>
 			</tags>
 		</rule>
 	</rules>

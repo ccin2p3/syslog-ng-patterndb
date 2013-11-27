@@ -9,39 +9,42 @@
 			class='system.daemon'
 			context-scope='process'>
 			<patterns>
-				<pattern>can't open @ESTRING:system.daemon.ntpd.drift.file::@ @ANYSTRING:system.daemon.ntpd.error@</pattern>
+				<pattern>can't open @ESTRING:appacct.rsid::@ @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="ntpd">can't open /etc/ntp/drift.TEMP: Permission denied</test_message>
 					<test_values>
-						<test_value name="system.daemon.ntpd.drift.file">/etc/ntp/drift.TEMP</test_value>
-						<test_value name="system.daemon.ntpd.error">Permission denied</test_value>
+						<test_value name="appacct.rsid">/etc/ntp/drift.TEMP</test_value>
+						<test_value name="details">Permission denied</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<tags>
 				<tag>alert</tag>
-				<tag>system.daemon</tag><tag>ntp</tag><tag>clock</tag>
+				<tag>clock</tag>
+				<tag>appacct</tag>
 			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='d0350fe7-753a-4184-8c2e-9850cdb4dcac'
 			class='system.daemon'
 			context-scope='process'>
 			<patterns>
-				<pattern>synchronized to @IPvANY:system.daemon.ntpd.sync.server@, stratum @NUMBER:system.daemon.ntpd.sync.stratum@</pattern>
+				<pattern>synchronized to @IPvANY:flowevt.dst_ip@, stratum @NUMBER:appacct.metric@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="ntpd">synchronized to 10.0.99.100, stratum 4</test_message>
 					<test_values>
-						<test_value name="system.daemon.ntpd.sync.server">10.0.99.100</test_value>
-						<test_value name="system.daemon.ntpd.sync.stratum">4</test_value>
+						<test_value name="flowevt.dst_ip">10.0.99.100</test_value>
+						<test_value name="appacct.metric">4</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<tags>
-				<tag>system.daemon</tag><tag>ntp</tag><tag>clock</tag>
+				<tag>clock</tag>
+				<tag>flowevt</tag>
+				<tag>appacct</tag>
 			</tags>
 		</rule>
 	</rules>

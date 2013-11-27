@@ -11,22 +11,25 @@
 			context-scope='program'>
 			<patterns>
 				<!-- block/blk-core.c: printk(KERN_ERR "end_request: I/O error, dev %s, sector %llu\n" -->
-				<pattern>end_request: I/O error, dev @ESTRING:kernel.block.blk-core.disk_name:,@ sector @NUMBER:kernel.block.blk-core.sector@</pattern>
+				<pattern>end_request: I/O error, dev @ESTRING:krnacct.rsname:,@ sector @NUMBER:krnacct.metric@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="kernel">end_request: I/O error, dev sda, sector 649918246</test_message>
 					<test_values>
-						<test_value name="kernel.block.blk-core.disk_name">sda</test_value>
-						<test_value name="kernel.block.blk-core.sector">649918246</test_value>
+						<test_value name="krnacct.rsname">sda</test_value>
+						<test_value name="krnacct.metric">649918246</test_value>
+						<test_value name="krnacct.metric_name">sector</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="target">${kernel.block.blk-core.disk_name}</value>
+				<value name="krnacct.rsclass">block</value>
+				<value name="krnacct.rstype">blk-core</value>
+				<value name="krnacct.metric_name">sector</value>
 			</values>
 			<tags>
-				<tag>kernel</tag>
+				<tag>krnacct</tag>
 				<tag>drivers</tag>
 				<tag>block</tag>
 				<tag>blk-core</tag>

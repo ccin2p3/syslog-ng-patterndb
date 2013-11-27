@@ -9,31 +9,42 @@
 		<!-- ipmievd.c: lprintf(LOG_NOTICE, "%s%s sensor %s - %s %s", eintf->prefix, type, sdr->record.compact->id_string, desc ? : "", evt->sel_type.standard_type.event_dir ? "Deasserted" : "Asserted"); -->
 		<rule provider="wernli@in2p3.fr" id='2487c339-e303-494c-80f6-1ee6969ef0c9'
 			class='hardware'
-			context-id="ipmievd-$(sha1 --length 12 $type $target $desc)"
+			context-id="ipmievd-$(sha1 --length 12 ${hwevt.rsclass} ${hwevt.rsname} $details)"
 			context-timeout="10"
 			context-scope="process">
 			<patterns>
-				<pattern>@ESTRING:type: sensor@ @ESTRING:target: -@ @ESTRING:desc: Asserted@</pattern>
+				<pattern>@ESTRING:hwevt.rsclass: sensor@ @ESTRING:hwevt.rsname: -@ @ESTRING:details: Asserted@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>Battery sensor CMOS Battery - Failed Asserted</test_message>
 					<test_values>
-						<test_value name="type">Battery</test_value>
-						<test_value name="target">CMOS Battery</test_value>
-						<test_value name="desc">Failed</test_value>
+						<test_value name="hwevt.rsclass">Battery</test_value>
+						<test_value name="hwevt.rsname">CMOS Battery</test_value>
+						<test_value name="details">Failed</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program='ipmievd'>Battery sensor ROMB Battery - Failed Asserted</test_message>
+					<test_values>
+						<test_value name="hwevt.rsclass">Battery</test_value>
+						<test_value name="hwevt.rsname">ROMB Battery</test_value>
+						<test_value name="details">Failed</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="status">Asserted</value>
-				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name="hwevt.status">Asserted</value>
+				<value name="hwevt.logsrc">$PROGRAM</value>
 			</values>
+			<tags>
+				<tag>hwevt</tag>
+			</tags>
 			<actions>
 				<action trigger='timeout'>
 					<message inherit-properties="TRUE">
 						<tags>
-							<tag>alert</tag><tag>hardware</tag>
+							<tag>alert</tag>
 						</tags>
 					</message>
 				</action>
@@ -41,25 +52,28 @@
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='18820eb4-2fec-4e8a-9840-245d37d9d589'
 			class='hardware'
-			context-id="ipmievd-$(sha1 --length 12 $type $target $desc)"
+			context-id="ipmievd-$(sha1 --length 12 ${hwevt.rsclass} ${hwevt.rsname} $details)"
 			context-scope="process">
 			<patterns>
-				<pattern>@ESTRING:type: sensor@ @ESTRING:target: -@ @ESTRING:desc: Deasserted@</pattern>
+				<pattern>@ESTRING:hwevt.rsclass: sensor@ @ESTRING:hwevt.rsname: -@ @ESTRING:details: Deasserted@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>Battery sensor ROMB Battery - Failed Deasserted</test_message>
 					<test_values>
-						<test_value name="type">Battery</test_value>
-						<test_value name="target">ROMB Battery</test_value>
-						<test_value name="desc">Failed</test_value>
+						<test_value name="hwevt.rsclass">Battery</test_value>
+						<test_value name="hwevt.rsname">ROMB Battery</test_value>
+						<test_value name="details">Failed</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="status">Deasserted</value>
-				<value name=".classifier.context-id">$CONTEXT_ID</value>
+				<value name="hwevt.status">Deasserted</value>
+				<value name="hwevt.logsrc">$PROGRAM</value>
 			</values>
+			<tags>
+				<tag>hwevt</tag>
+			</tags>
 		</rule>
 		<!-- ipmievd.c: lprintf(LOG_NOTICE, "%s%s sensor %s - %s", eintf->prefix, type, sdr->record.compact->id_string, desc ? : "");  -->
 		<rule provider="wernli@in2p3.fr" id='5231f32c-dbe5-42b4-a558-4ec3542ffc31'
@@ -67,20 +81,24 @@
 			context-id="ipmievd"
 			context-scope="process">
 			<patterns>
-				<pattern>@ESTRING:type: sensor@ @ESTRING:target: -@ @ANYSTRING:status@</pattern>
+				<pattern>@ESTRING:hwevt.rsclass: sensor@ @ESTRING:hwevt.rsname: -@ @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>Memory sensor Mem ECC Warning - Transition to Critical from less severe</test_message>
 					<test_values>
-						<test_value name="type">Memory</test_value>
-						<test_value name="target">Mem ECC Warning</test_value>
-						<test_value name="status">Transition to Critical from less severe</test_value>
+						<test_value name="hwevt.rsclass">Memory</test_value>
+						<test_value name="hwevt.rsname">Mem ECC Warning</test_value>
+						<test_value name="details">Transition to Critical from less severe</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="hwevt.logsrc">$PROGRAM</value>
+			</values>
 			<tags>
-				<tag>alert</tag><tag>hardware</tag>
+				<tag>alert</tag>
+				<tag>hwevt</tag>
 			</tags>
 		</rule>
 		<!-- ipmievd.c: lprintf(LOG_NOTICE, "%s%s sensor - %s", eintf->prefix, type, desc); -->
@@ -89,19 +107,23 @@
 			context-id="ipmievd"
 			context-scope="process">
 			<patterns>
-				<pattern>@ESTRING:type: sensor@ - @ANYSTRING:desc@</pattern>
+				<pattern>@ESTRING:hwevt.rsclass: sensor@ - @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>Temperature sensor - Upper Critical going high</test_message>
 					<test_values>
-						<test_value name="type">Temperature</test_value>
-						<test_value name="desc">Upper Critical going high</test_value>
+						<test_value name="hwevt.rsclass">Temperature</test_value>
+						<test_value name="details">Upper Critical going high</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="hwevt.logsrc">$PROGRAM</value>
+			</values>
 			<tags>
-				<tag>alert</tag><tag>hardware</tag>
+				<tag>alert</tag>
+				<tag>hwevt</tag>
 			</tags>
 		</rule>
 	<!-- SDR_RECORD_TYPE_FULL_SENSOR -->
@@ -112,20 +134,24 @@
 			context-id="ipmievd"
 			context-scope="process">
 			<patterns>
-				<pattern>@ESTRING:type: sensor@ @ESTRING:target: (@@ESTRING:status:)@</pattern>
+				<pattern>@ESTRING:hwevt.rsclass: sensor@ @ESTRING:hwevt.rsname: (@@ESTRING:details:)@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>Fan sensor FCB FAN2 Lower Critical going low  (Reading 1500 &lt; Threshold 1500 RPM)</test_message>
 					<test_values>
-						<test_value name="type">Fan</test_value>
-						<test_value name="target">FCB FAN2 Lower Critical going low </test_value>
-						<test_value name="status">Reading 1500 &lt; Threshold 1500 RPM</test_value>
+						<test_value name="hwevt.rsclass">Fan</test_value>
+						<test_value name="hwevt.rsname">FCB FAN2 Lower Critical going low </test_value>
+						<test_value name="details">Reading 1500 &lt; Threshold 1500 RPM</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="hwevt.logsrc">$PROGRAM</value>
+			</values>
 			<tags>
-				<tag>alert</tag><tag>hardware</tag>
+				<tag>alert</tag>
+				<tag>hwevt</tag>
 			</tags>
 		</rule>
 	<!-- lprintf(LOG_NOTICE, "%sIPMI Event OEM Record %02x", eintf->prefix, evt->record_type); -->
@@ -134,18 +160,19 @@
 			context-id="ipmievd"
 			context-scope="process">
 			<patterns>
-				<pattern>IPMI Event OEM Record @ANYSTRING:target@</pattern>
+				<pattern>IPMI Event OEM Record @ANYSTRING:hwevt.rsname@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>IPMI Event OEM Record c8</test_message>
 					<test_values>
-						<test_value name="target">c8</test_value>
+						<test_value name="hwevt.rsname">c8</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="type">OEM Record</value>
+				<value name="hwevt.rsclass">OEM Record</value>
+				<value name="hwevt.logsrc">$PROGRAM</value>
 			</values>
 		</rule>
 		<!-- selwatch_check -->
@@ -157,47 +184,61 @@
 				<pattern>SEL overflow is cleared</pattern>
 			</patterns>
 			<values>
-				<value name="target">SEL overflow</value>
-				<value name="status">cleared</value>
+				<value name="hwevt.rsname">SEL overflow</value>
+				<value name="hwevt.status">cleared</value>
+				<value name="hwevt.logsrc">$PROGRAM</value>
 			</values>
+			<tags>
+				<tag>hwevt</tag>
+			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='5de23abb-d951-4ed6-99c7-078946280943'
 			class='hardware'
 			context-id="ipmievd"
 			context-scope="process">
 			<patterns>
-				<pattern>SEL buffer @ANYSTRING:status@</pattern>
+				<pattern>SEL buffer @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>SEL buffer is 868% full, please consider clearing the SEL buffer</test_message>
 					<test_values>
-						<test_value name="status">is 868% full, please consider clearing the SEL buffer</test_value>
+						<test_value name="details">is 868% full, please consider clearing the SEL buffer</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="target">SEL buffer</value>
+				<value name="hwevt.rsname">SEL buffer</value>
+				<value name="hwevt.status">Fullness</value>
+				<value name="hwevt.logsrc">$PROGRAM</value>
 			</values>
+			<tags>
+				<tag>hwevt</tag>
+			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='bfed5178-23b3-4533-bc42-af561dda55a5'
 			class='hardware'
 			context-id="ipmievd"
 			context-scope="process">
 			<patterns>
-				<pattern>SEL count @ANYSTRING:status@</pattern>
+				<pattern>SEL count @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='ipmievd'>SEL count is 0 (old=127), resetting lastid to 0</test_message>
 					<test_values>
-						<test_value name="status">is 0 (old=127), resetting lastid to 0</test_value>
+						<test_value name="details">is 0 (old=127), resetting lastid to 0</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="target">SEL count</value>
+				<value name="hwevt.rsname">SEL count</value>
+				<value name="hwevt.status">Count</value>
+				<value name="hwevt.logsrc">$PROGRAM</value>
 			</values>
+			<tags>
+				<tag>hwevt</tag>
+			</tags>
 		</rule>
 
 		<!-- TODO

@@ -6,44 +6,50 @@
 	</patterns>
 	<rules>
 		<rule provider="wernli@in2p3.fr" id='a131a0df-9c53-41b0-a2cf-4d3d09e19523'
-			class='system'
+			class='system.daemon'
 			context-id='system.daemon.automount'
 			context-scope='process'>
 			<patterns>
-				<pattern>master.c:@NUMBER:system.daemon.automount.lineno@: assertion failed: ap->state == ST_READY</pattern>
+				<pattern>master.c:@NUMBER:appacct.metric@: assertion failed: ap->state == ST_READY</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='automount'>master.c:933: assertion failed: ap->state == ST_READY</test_message>
 					<test_values>
-						<test_value name='system.daemon.automount.lineno'>933</test_value>
+						<test_value name='appacct.metric'>933</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<tags>
+				<tag>appacct</tag>
+			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='b08fe8a2-c058-4203-90ee-06666c86b6a8'
 			class='system'
 			context-id='system.daemon.automount'
 			context-scope='process'>
 			<patterns>
-				<pattern>lookup_mount: lookup(@ESTRING:system.daemon.automount.map:)@: key "@ESTRING:system.daemon.automount.key:"@ not found in map</pattern>
-				<pattern>key "@ESTRING:system.daemon.automount.key:"@ not found in map source(s).</pattern>
+				<pattern>lookup_mount: lookup(@ESTRING:appacct.rsclass:)@: key "@ESTRING:appacct.rsid:"@ not found in map</pattern>
+				<pattern>key "@ESTRING:appacct.rsid:"@ not found in map source(s).</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='automount'>lookup_mount: lookup(yp): key ".hg" not found in map</test_message>
 					<test_values>
-						<test_value name='system.daemon.automount.map'>yp</test_value>
-						<test_value name='system.daemon.automount.key'>.hg</test_value>
+						<test_value name='appacct.rsclass'>yp</test_value>
+						<test_value name='appacct.rsid'>.hg</test_value>
 					</test_values>
 				</example>
 				<example>
 					<test_message program='automount'>key "{arch}" not found in map source(s).</test_message>
 					<test_values>
-						<test_value name='system.daemon.automount.key'>{arch}</test_value>
+						<test_value name='appacct.rsid'>{arch}</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<tags>
+				<tag>appacct</tag>
+			</tags>
 		</rule>
 	</rules>
 </ruleset>

@@ -7,48 +7,54 @@
 	<rules>
 		<rule provider="wernli@in2p3.fr" id='4f4e2c3a-62d9-4a88-ad4e-fcb7fdf63552'
 			class='system.daemon'
-			context-id='dnsmasq-dhcp-${dnsmasq.dhcp.mac}'
+			context-id='dnsmasq-dhcp-${flowevt.src_mac}'
 			context-scope='process'>
 			<patterns>
-				<pattern>DHCPACK@QSTRING:dnsmasq.dhcp.dev:()@ @IPvANY:dnsmasq.dhcp.ip@ @MACADDR:dnsmasq.dhcp.mac@ @ANYSTRING:dnsmasq.dhcp.hostname@</pattern>
+				<pattern>DHCPACK@QSTRING:krnacct.rsname:()@ @IPvANY:flowevt.src_ip@ @MACADDR:flowevt.src_mac@ @ANYSTRING:appacct.rsid@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="dnsmasq-dhcp">DHCPACK(br82) 10.158.4.7 fa:16:3e:5d:fa:55 myhostname</test_message>
 					<test_values>
-						<test_value name="dnsmasq.dhcp.dev">br82</test_value>
-						<test_value name="dnsmasq.dhcp.ip">10.158.4.7</test_value>
-						<test_value name="dnsmasq.dhcp.mac">fa:16:3e:5d:fa:55</test_value>
-						<test_value name="dnsmasq.dhcp.hostname">myhostname</test_value>
+						<test_value name="krnacct.rsname">br82</test_value>
+						<test_value name="flowevt.src_ip">10.158.4.7</test_value>
+						<test_value name="flowevt.src_mac">fa:16:3e:5d:fa:55</test_value>
+						<test_value name="appacct.rsid">myhostname</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<tags>
 				<tag>dhcp</tag>
 				<tag>dns</tag>
+				<tag>appacct</tag>
+				<tag>flowevt</tag>
+				<tag>krnacct</tag>
 			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='9b2394d8-6674-4a0c-809a-061e37c84573'
 			class='system.daemon'
-			context-id='dnsmasq-dhcp-${dnsmasq.dhcp.mac}'
+			context-id='dnsmasq-dhcp-${flowevt.src_mac}'
 			context-timeout='10'
 			context-scope='process'>
 			<patterns>
-				<pattern>DHCPREQUEST@QSTRING:dnsmasq.dhcp.dev:()@ @IPvANY:dnsmasq.dhcp.ip@ @MACADDR:dnsmasq.dhcp.mac@ </pattern>
+				<pattern>DHCPREQUEST@QSTRING:krnacct.rsname:()@ @IPvANY:flowevt.src_ip@ @MACADDR:flowevt.src_mac@ </pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="dnsmasq-dhcp">DHCPREQUEST(br82) 10.158.4.7 fa:16:3e:5d:fa:55 </test_message>
 					<test_values>
-						<test_value name="dnsmasq.dhcp.dev">br82</test_value>
-						<test_value name="dnsmasq.dhcp.ip">10.158.4.7</test_value>
-						<test_value name="dnsmasq.dhcp.mac">fa:16:3e:5d:fa:55</test_value>
+						<test_value name="krnacct.rsname">br82</test_value>
+						<test_value name="flowevt.src_ip">10.158.4.7</test_value>
+						<test_value name="flowevt.src_mac">fa:16:3e:5d:fa:55</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<tags>
 				<tag>dhcp</tag>
 				<tag>dns</tag>
+				<tag>appacct</tag>
+				<tag>flowevt</tag>
+				<tag>krnacct</tag>
 			</tags>
 			<actions>
 				<action trigger='timeout'>
@@ -65,17 +71,17 @@
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='e48a2b52-014f-4cf3-9e15-55ffdffb3763'
 			class='system.daemon'
-			context-id='dnsmasq-dhcp-${dnsmasq.dhcp.mac}'
+			context-id='dnsmasq-dhcp-${flowevt.src_mac}'
 			context-scope='process'>
 			<patterns>
-				<pattern>DHCPDISCOVER@QSTRING:dnsmasq.dhcp.dev:()@ @MACADDR:dnsmasq.dhcp.mac@ no address available</pattern>
+				<pattern>DHCPDISCOVER@QSTRING:krnacct.rsname:()@ @MACADDR:flowevt.src_mac@ no address available</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="dnsmasq-dhcp">DHCPDISCOVER(br76) fa:16:3e:4f:31:1a no address available</test_message>
 					<test_values>
-						<test_value name="dnsmasq.dhcp.dev">br76</test_value>
-						<test_value name="dnsmasq.dhcp.mac">fa:16:3e:4f:31:1a</test_value>
+						<test_value name="krnacct.rsname">br76</test_value>
+						<test_value name="flowevt.src_mac">fa:16:3e:4f:31:1a</test_value>
 					</test_values>
 				</example>
 			</examples>
@@ -83,6 +89,9 @@
 				<tag>dhcp</tag>
 				<tag>dns</tag>
 				<tag>alert</tag>
+				<tag>appacct</tag>
+				<tag>flowevt</tag>
+				<tag>krnacct</tag>
 			</tags>
 		</rule>
 	</rules>

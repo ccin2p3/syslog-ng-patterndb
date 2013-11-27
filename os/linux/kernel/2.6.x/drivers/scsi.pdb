@@ -14,20 +14,26 @@
 							         (hb < NUM_HOSTBYTE_STRS ? hostbyte_table[hb]     : "invalid"),
 							                  (db < NUM_DRIVERBYTE_STRS ? driverbyte_table[db] : "invalid"));
 					-->
-				<pattern>kernel: Result: hostbyte=@ESTRING:kernel.drivers.scsi.hostbyte: @driverbyte=@ANYSTRING:kernel.drivers.scsi.driverbyte@</pattern>
+				<pattern>kernel: Result: hostbyte=@ESTRING:krnacct.hostbyte: @driverbyte=@ANYSTRING:krnacct.driverbyte@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="kernel">kernel: Result: hostbyte=DID_OK driverbyte=DRIVER_SENSE,SUGGEST_OK</test_message>
 					<test_values>
-						<test_value name="kernel.drivers.scsi.hostbyte">DID_OK</test_value>
-						<test_value name="kernel.drivers.scsi.driverbyte">DRIVER_SENSE,SUGGEST_OK</test_value>
+						<test_value name="krnacct.hostbyte">DID_OK</test_value>
+						<test_value name="krnacct.driverbyte">DRIVER_SENSE,SUGGEST_OK</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.rsclass">drivers</value>
+				<value name="krnacct.rstype">scsi</value>
+				<value name="krnacct.rsname">driverbyte</value>
+			</values>
 			<tags>
-				<tag>sense_key</tag><tag>scsi</tag><tag>alert</tag><tag>hardware</tag>
-				<tag>kernel</tag><tag>drivers</tag>
+				<tag>scsi</tag><tag>alert</tag><tag>hwevt</tag>
+				<tag>krnacct</tag>
 			</tags>
 		</rule>
 	</rules>

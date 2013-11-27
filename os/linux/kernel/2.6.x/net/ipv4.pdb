@@ -10,20 +10,23 @@
 			context-id='kernel.net.ipv4.route'
 			context-scope='program'>
 			<patterns>
-				<pattern>kernel: ll header: @LLADDR:kernel.net.ipv4.route.llheader@</pattern>
+				<pattern>kernel: ll header: @LLADDR:krnacct.route_llhdr@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='kernel'>kernel: ll header: 00:22:19:65:b9:3a:00:26:98:24:9e:c1:08:00</test_message>
 					<test_values>
-						<test_value name='kernel.net.ipv4.route.llheader'>00:22:19:65:b9:3a:00:26:98:24:9e:c1:08:00</test_value>
+						<test_value name='krnacct.route_llhdr'>00:22:19:65:b9:3a:00:26:98:24:9e:c1:08:00</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.rsclass">net</value>
+				<value name="krnacct.rstype">ipv4</value>
+			</values>
 			<tags>
-				<tag>kernel</tag>
-				<tag>net</tag>
-				<tag>ipv4</tag>
+				<tag>krnacct</tag>
 			</tags>
 		</rule>
 		<rule provider='wernli@in2p3.fr' id='572e9893-e4c2-4076-8c17-74c70b2549a5'
@@ -31,33 +34,32 @@
 			context-id='kernel.net.ipv4.route'
 			context-scope='program'>
 			<patterns>
-				<pattern>kernel: martian source @IPvANY:kernel.net.ipv4.route.destination.ip@ from @IPvANY:kernel.net.ipv4.route.source.ip@, on dev @ANYSTRING:kernel.net.ipv4.route.dev@</pattern>
+				<pattern>kernel: martian source @IPvANY:flowevt.dst_ip@ from @IPvANY:flowevt.src_ip@, on dev @ANYSTRING:krnacct.rsname@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program='kernel'>kernel: martian source 10.0.106.201 from 10.0.69.167, on dev eth0</test_message>
 					<test_values>
-						<test_value name='kernel.net.ipv4.route.destination.ip'>10.0.106.201</test_value>
-						<test_value name='kernel.net.ipv4.route.source.ip'>10.0.69.167</test_value>
-						<test_value name='kernel.net.ipv4.route.dev'>eth0</test_value>
+						<test_value name='flowevt.dst_ip'>10.0.106.201</test_value>
+						<test_value name='flowevt.src_ip'>10.0.69.167</test_value>
+						<test_value name='krnacct.rsname'>eth0</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.rsclass">net</value>
+				<value name="krnacct.rstype">ipv4</value>
+			</values>
 			<tags>
-				<tag>kernel</tag>
-				<tag>net</tag>
-				<tag>ipv4</tag>
+				<tag>krnacct</tag>
+				<tag>flowevt</tag>
 			</tags>
 		</rule>
 	</rules>
 </ruleset>
 
 </patterndb>
-
-<!-- TODO
-kernel: hda: dma_timer_expiry: dma status == 0x21
-
--->
 
 <!-- vim:ft=xml
   -->

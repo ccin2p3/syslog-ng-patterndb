@@ -1,0 +1,83 @@
+<patterndb version='4' pub_date='2013-11-21'>
+
+<ruleset name='REPLACE_NAME' id='7767405f-ba18-487f-83d9-b7d34a766e99'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='39bb586e-658e-4ec9-9b60-eb77302fe5db'
+			class='system'
+			context-id="link-${krnacct.rsname}"
+			context-scope="program">
+			<!-- drivers/net/$various.c - a shame this ain't deduplicated -->
+			<patterns>
+				<pattern>kernel: @ESTRING:tmp.drv: @@ESTRING:tmp.rsid: @@ESTRING:krnacct.rsname::@ Link is down</pattern>
+				<pattern>kernel: @ESTRING:tmp.drv: @@ESTRING:tmp.rsid: @@ESTRING:krnacct.rsname::@ NIC Copper Link is Down</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: bnx2 0000:01:00.1: eth1: NIC Copper Link is Down</test_message>
+					<test_values>
+						<test_value name="krnacct.rsname">eth1</test_value>
+						<test_value name="krnacct.rstype">net</test_value>
+						<test_value name="krnacct.rsid">bnx2.0000:01:00.1:</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="kernel">kernel: tg3 0000:01:00.1: eth1: Link is down</test_message>
+					<test_values>
+						<test_value name="krnacct.rsname">eth1</test_value>
+						<test_value name="krnacct.rstype">net</test_value>
+						<test_value name="krnacct.rsid">tg3.0000:01:00.1:</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.ver">2.6</value>
+				<value name="krnacct.rsclass">drivers</value>
+				<value name="krnacct.rstype">net</value>
+				<value name="krnacct.rsid">${tmp.drv}.${tmp.rsid}</value>
+			</values>
+			<tags>
+				<tag>krnacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='76eba027-7dc5-43f0-97b0-7e194fe3b570'
+			class='system'
+			context-id="link-${krnacct.rsname}"
+			context-scope="program">
+			<!-- drivers/net/bonding/bond_main.c
+					 pr_info(DRV_NAME ": %s: link status definitely down for "
+					 "interface %s, disabling it\n",
+					 bond->dev->name, slave->dev->name); -->
+			<patterns>
+				<pattern>kernel: bonding: @ESTRING:krnacct.rsname::@ link status definitely down for interface @ESTRING:tmp.slave:,@ disabling it</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: bonding: bond0: link status definitely down for interface eth1, disabling it</test_message>
+					<test_values>
+						<test_value name="krnacct.rsname">bond0</test_value>
+						<test_value name="krnacct.rsid">bond0.eth1</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="krnacct.name">Linux</value>
+				<value name="krnacct.ver">2.6</value>
+				<value name="krnacct.rsclass">drivers</value>
+				<value name="krnacct.rstype">net</value>
+				<value name="krnacct.rsid">${krnacct.rsname}.${tmp.slave}</value>
+			</values>
+			<tags>
+				<tag>krnacct</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->

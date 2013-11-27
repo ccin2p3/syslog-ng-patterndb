@@ -10,72 +10,102 @@
 			context-id='named'
 			context-scope="process">
 			<patterns>
-				<pattern>FORMERR resolving '@ESTRING:system.daemon.named.entry:'@: @IPvANY:system.daemon.named.nameserver.ip@#@NUMBER:system.daemon.named.nameserver.port@</pattern>
+				<pattern>FORMERR resolving '@ESTRING:appacct.rsid:'@: @IPvANY:flowevt.dst_ip@#@NUMBER:flowevt.dst_port@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="named">FORMERR resolving 'my.fqdn.at.tld/AAAA/IN': 10.0.69.164#53</test_message>
 					<test_values>
-						<test_value name="system.daemon.named.entry">my.fqdn.at.tld/AAAA/IN</test_value>
-						<test_value name="system.daemon.named.nameserver.ip">10.0.69.164</test_value>
-						<test_value name="system.daemon.named.nameserver.port">53</test_value>
+						<test_value name="appacct.rsid">my.fqdn.at.tld/AAAA/IN</test_value>
+						<test_value name="flowevt.dst_ip">10.0.69.164</test_value>
+						<test_value name="flowevt.dst_port">53</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="appacct.status">FORMERR</value>
+				<value name="appacct.fct">resolver</value>
+			</values>
+			<tags>
+				<tag>appacct</tag>
+				<tag>flowevt</tag>
+			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='75c57e45-0c0a-436d-bf84-1dd06876b718'
 			class='system.daemon'
 			context-id='named'
 			context-scope="process">
 			<patterns>
-				<pattern>zone @ESTRING:system.daemon.named.zone::@ @ESTRING:system.daemon.named.entry::@ bad owner name (check-names)</pattern>
+				<pattern>zone @ESTRING:appacct.rsclass::@ @ESTRING:appacct.rsid::@ bad owner name (check-names)</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="named">zone my.zone.tld/IN: foo.bar.my.zone.tld/A: bad owner name (check-names)</test_message>
 					<test_values>
-						<test_value name="system.daemon.named.entry">foo.bar.my.zone.tld/A</test_value>
-						<test_value name="system.daemon.named.zone">my.zone.tld/IN</test_value>
+						<test_value name="appacct.rsid">foo.bar.my.zone.tld/A</test_value>
+						<test_value name="appacct.rsclass">my.zone.tld/IN</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name="appacct.status">bad owner name</value>
+				<value name="appacct.fct">check-names</value>
+			</values>
+			<tags>
+				<tag>appacct</tag>
+			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='f0c03ef7-f887-4046-97ec-809f1bccd844'
 			class='system.daemon'
 			context-id='named'
 			context-scope="process">
 			<patterns>
-				<pattern>unexpected RCODE @QSTRING:system.daemon.named.rcode:()@ resolving '@ESTRING:system.daemon.named.entry:'@: @IPvANY:system.daemon.named.nameserver.ip@#@NUMBER:system.daemon.named.nameserver.port@</pattern>
+				<pattern>unexpected RCODE @QSTRING:appacct.status:()@ resolving '@ESTRING:appacct.rsid:'@: @IPvANY:flowevt.dst_ip@#@NUMBER:flowevt.dst_port@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="named">unexpected RCODE (REFUSED) resolving 'boro.cat.cbpf.br/A/IN': 152.84.253.220#53</test_message>
 					<test_values>
-						<test_value name="system.daemon.named.entry">boro.cat.cbpf.br/A/IN</test_value>
-						<test_value name="system.daemon.named.rcode">REFUSED</test_value>
-						<test_value name="system.daemon.named.nameserver.ip">152.84.253.220</test_value>
-						<test_value name="system.daemon.named.nameserver.port">53</test_value>
+						<test_value name="appacct.rsid">boro.cat.cbpf.br/A/IN</test_value>
+						<test_value name="appacct.status">REFUSED</test_value>
+						<test_value name="flowevt.dst_ip">152.84.253.220</test_value>
+						<test_value name="flowevt.dst_port">53</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<tags>
+				<tag>flowevt</tag>
+				<tag>appacct</tag>
+			</tags>
+			<values>
+				<value name="appacct.fct">resolver</value>
+			</values>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='b08c87d1-e44a-4198-8476-b7a610bf13cb'
 			class='system.daemon'
 			context-id='named'
 			context-scope="process">
 			<patterns>
-				<pattern>connection refused resolving '@ESTRING:system.daemon.named.entry:'@: @IPvANY:system.daemon.named.nameserver.ip@#@NUMBER:system.daemon.named.nameserver.port@</pattern>
+				<pattern>connection refused resolving '@ESTRING:appacct.rsid:'@: @IPvANY:flowevt.dst_ip@#@NUMBER:flowevt.dst_port@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="named">connection refused resolving 'my.fqdn.at.tld/AAAA/IN': 10.0.69.163#53</test_message>
 					<test_values>
-						<test_value name="system.daemon.named.entry">my.fqdn.at.tld/AAAA/IN</test_value>
-						<test_value name="system.daemon.named.nameserver.ip">10.0.69.163</test_value>
-						<test_value name="system.daemon.named.nameserver.port">53</test_value>
+						<test_value name="appacct.rsid">my.fqdn.at.tld/AAAA/IN</test_value>
+						<test_value name="flowevt.dst_ip">10.0.69.163</test_value>
+						<test_value name="flowevt.dst_port">53</test_value>
 					</test_values>
 				</example>
 			</examples>
+			<tags>
+				<tag>flowevt</tag>
+				<tag>appacct</tag>
+			</tags>
+			<values>
+				<value name="appacct.fct">resolver</value>
+				<value name="appacct.status">refused</value>
+			</values>
 		</rule>
 	</rules>
 </ruleset>

@@ -7,42 +7,48 @@
 	<rules>
 		<rule provider="wernli@in2p3.fr" id='f307ef5e-8010-4937-80bc-13c763ae13c0'
 			class='application'
-			context-id='xinetd-${xinetd.service.name}-${xinetd.service.pid}'
+			context-id='xinetd-${appacct.rsclass}-${appacct.rsid}'
 			context-scope='process'>
 			<patterns>
-				<pattern>EXIT: @ESTRING:xinetd.service.name: status=@@NUMBER:xinetd.service.status@ pid=@NUMBER:xinetd.service.pid@ duration=@ESTRING:xinetd.service.duration:(@sec)</pattern>
+				<pattern>EXIT: @ESTRING:appacct.rsclass: status=@@NUMBER:appacct.status@ pid=@NUMBER:appacct.rsid@ duration=@ESTRING:appacct.duration:(@sec)</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="xinetd">EXIT: nrpe status=0 pid=18581 duration=0(sec)</test_message>
 					<test_values>
-						<test_value name="xinetd.service.name">nrpe</test_value>
-						<test_value name="xinetd.service.status">0</test_value>
-						<test_value name="xinetd.service.pid">18581</test_value>
-						<test_value name="xinetd.service.duration">0</test_value>
-						<test_value name="xinetd.service.source">::ffff:134.158.108.120</test_value>
+						<test_value name="appacct.rsclass">nrpe</test_value>
+						<test_value name="appacct.status">0</test_value>
+						<test_value name="appacct.rsid">18581</test_value>
+						<test_value name="appacct.duration">0</test_value>
+						<test_value name="flowevt.src_ip">::ffff:134.158.108.120</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
-				<value name="xinetd.service.source">${xinetd.service.source}@1</value>
+				<!-- use value from correlated previous event -->
+				<value name="flowevt.src_ip">${flowevt.src_ip}@1</value>
+				<value name="appacct.name">$PROGRAM</value>
+				<value name="appacct.fct">status</value>
 			</values>
+			<tags>
+				<tag>appacct</tag>
+			</tags>
 		</rule>
 		<rule provider="wernli@in2p3.fr" id='f307ef5e-8010-4937-80bc-13c763ae13c0'
 			class='application'
-			context-id='xinetd-${xinetd.service.name}-${xinetd.service.pid}'
+			context-id='xinetd-${appacct.rsclass}-${appacct.rsid}'
 			context-timeout='10'
 			context-scope='process'>
 			<patterns>
-				<pattern>START: @ESTRING:xinetd.service.name: pid=@@NUMBER:xinetd.service.pid@ from=@IPvANY:xinetd.service.source@</pattern>
+				<pattern>START: @ESTRING:appacct.rsclass: pid=@@NUMBER:appacct.rsid@ from=@IPvANY:flowevt.src_ip@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="xinetd">START: nrpe pid=18581 from=::ffff:134.158.108.120</test_message>
 					<test_values>
-						<test_value name="xinetd.service.name">nrpe</test_value>
-						<test_value name="xinetd.service.pid">18581</test_value>
-						<test_value name="xinetd.service.source">::ffff:134.158.108.120</test_value>
+						<test_value name="appacct.rsclass">nrpe</test_value>
+						<test_value name="appacct.rsid">18581</test_value>
+						<test_value name="flowevt.src_ip">::ffff:134.158.108.120</test_value>
 					</test_values>
 				</example>
 			</examples>
@@ -50,16 +56,19 @@
 				<action trigger='timeout'>
 					<message inherit-properties='TRUE'>
 						<values>
-							<value name="MESSAGE">patterndb: svc=${xinetd.service.name}; pid=${xinetd.service.pid}; src=${xinetd.service.source}; msg=xinetd service timeout after 10s</value>
+							<value name="MESSAGE">patterndb: svc=${appacct.rsclass}; pid=${appacct.rsid}; src=${flowevt.src_ip}; msg=xinetd service timeout after 10s</value>
 						</values>
 						<tags>
 							<tag>alert</tag>
+							<tag>flowevt</tag>
+							<tag>appacct</tag>
 						</tags>
 					</message>
 				</action>
 			</actions>
 			<tags>
-				<tag>xinetd</tag>
+				<tag>flowevt</tag>
+				<tag>appacct</tag>
 			</tags>
 		</rule>
 	</rules>
