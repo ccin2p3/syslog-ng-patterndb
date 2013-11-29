@@ -186,6 +186,22 @@
 				<tag>usracct</tag><tag>secevt</tag><tag>openafs</tag>
 			</tags>
 		</rule>
+		<rule provider="wernli@in2p3.fr" id='3da3e56d-26f8-44cf-b797-446f4f8127fd' class="system">
+			<patterns>
+				<pattern>AFS Ignoring superuser @ANYSTRING:usracct.username@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="pam_afs">AFS Ignoring superuser root</test_message>
+					<test_values>
+						<test_value name="usracct.username">root</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>usracct</tag>
+			</tags>
+		</rule>
 		<rule provider="wernli@in2p3.fr" id='5f4da756-91c7-4d13-828b-cff4bed16d3c' class='system'>
 			<patterns>
 				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ password was incorrect </pattern>
