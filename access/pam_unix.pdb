@@ -9,6 +9,7 @@
       <pattern>imap</pattern>
       <pattern>login</pattern>
       <pattern>pam</pattern>
+      <pattern>pam_afs</pattern>
       <pattern>pure-ftpd</pattern>
       <pattern>proftpd</pattern>
       <pattern>sshd</pattern>

@@ -1,0 +1,261 @@
+<patterndb version='4' pub_date='2013-08-26'>
+
+<ruleset name='openafs' id='bd2fb868-0466-4cef-8631-86f5adefbd97'>
+	<patterns>
+		<pattern>kernel</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id='f07606c9-da78-4679-856c-47b7ef737358'
+			class='system'
+			context-id="openafs"
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: afs: byte-range locks only enforced for processes on this machine (pid @NUMBER:system.openafs.pid@ (@ESTRING:system.openafs.program:)@, user @ESTRING:system.openafs.uid:)@.</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: afs: byte-range locks only enforced for processes on this machine (pid 2323 (athena.py), user 41817).</test_message>
+					<test_values>
+						<test_value name="system.openafs.pid">2323</test_value>
+						<test_value name="system.openafs.program">athena.py</test_value>
+						<test_value name="system.openafs.uid">41817</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='34a012fc-f964-4b85-a5cb-066ca2efa54b'
+			class='system'
+			context-id="openafs-${system.openafs.cell}-${system.openafs.fs.ip}"
+			context-timeout='60'
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: afs: Lost contact with file server @IPvANY:system.openafs.fs.ip@ in cell @HOSTNAME:system.openafs.cell@ (all multi-homed ip addresses down for the server)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: afs: Lost contact with file server 10.0.104.125 in cell my.cell (all multi-homed ip addresses down for the server)</test_message>
+					<test_values>
+						<test_value name="system.openafs.fs.ip">10.0.104.125</test_value>
+						<test_value name="system.openafs.cell">my.cell</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+			<actions>
+				<action trigger='timeout'>
+					<message inherit-properties="TRUE">
+						<tags>
+							<tag>alert</tag>
+						</tags>
+					</message>
+				</action>
+			</actions>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='b82b8d55-6060-4857-bc2e-d3ce5f4fd082'
+			class='system'
+			context-id="openafs-${system.openafs.cell}-${system.openafs.fs.ip}"
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: afs: file server @IPvANY:system.openafs.fs.ip@ in cell @HOSTNAME:system.openafs.cell@ is back up (multi-homed address; other same-host interfaces may still be down)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: afs: file server 10.0.104.125 in cell my.cell is back up (multi-homed address; other same-host interfaces may still be down)</test_message>
+					<test_values>
+						<test_value name="system.openafs.fs.ip">10.0.104.125</test_value>
+						<test_value name="system.openafs.cell">my.cell</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context-id">$CONTEXT_ID</value>
+			</values>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='50e3134b-ac41-46c9-8de3-407c2318c6d6'
+			class='system'
+			context-id="system.openafs"
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: afs: Tokens for user of AFS id @NUMBER:system.openafs.uid@ for cell @HOSTNAME:system.openafs.cell@ are discarded (rxkad error=@NUMBER:system.openafs.rxkad.error@, server @IPvANY:system.openafs.server@)</pattern>
+				<pattern>kernel: afs: Tokens for user of AFS id @NUMBER:system.openafs.uid@ for cell @HOSTNAME:system.openafs.cell@: rxkad error=@NUMBER:system.openafs.rxkad.error@ (server @IPvANY:system.openafs.server@)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: afs: Tokens for user of AFS id 41675 for cell my.cell are discarded (rxkad error=19270408, server 10.0.104.125)</test_message>
+					<test_values>
+						<test_value name="system.openafs.uid">41675</test_value>
+						<test_value name="system.openafs.cell">my.cell</test_value>
+						<test_value name="system.openafs.server">10.0.104.125</test_value>
+						<test_value name="system.openafs.rxkad.error">19270408</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="kernel">kernel: afs: Tokens for user of AFS id -1 for cell my.cell: rxkad error=19270408 (server 10.0.104.91)</test_message>
+					<test_values>
+						<test_value name="system.openafs.uid">-1</test_value>
+						<test_value name="system.openafs.cell">my.cell</test_value>
+						<test_value name="system.openafs.server">10.0.104.91</test_value>
+						<test_value name="system.openafs.rxkad.error">19270408</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='86aa1cfd-c632-4b55-8982-a8a4e3adfff6'
+			class='system'
+			context-id="system.openafs"
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: afs: Tokens for user of AFS id @NUMBER:system.openafs.uid@ for cell @HOSTNAME:system.openafs.cell@ have expired (server @IPvANY:system.openafs.server@)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: afs: Tokens for user of AFS id -1 for cell my.cell have expired (server 10.0.104.102)</test_message>
+					<test_values>
+						<test_value name="system.openafs.uid">-1</test_value>
+						<test_value name="system.openafs.cell">my.cell</test_value>
+						<test_value name="system.openafs.server">10.0.104.102</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='765f361b-8ac4-464e-8bbe-849a0afef5b9'
+			class='system'
+			context-id="system.openafs"
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: Starting AFS cache scan...found @NUMBER:system.openafs.cachefile.count@ non-empty cache files (@ESTRING:system.openafs.cachefile.percent:%@)</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: Starting AFS cache scan...found 9918 non-empty cache files (34%).</test_message>
+					<test_values>
+						<test_value name="system.openafs.cachefile.count">9918</test_value>
+						<test_value name="system.openafs.cachefile.percent">34</test_value>
+					</test_values>
+				</example>
+			</examples>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='74644fb9-107a-4230-b994-d38411436ace'
+			class='system'
+			context-id="system.openafs"
+			context-scope="program">
+			<patterns>
+				<pattern>kernel: afs: Waiting for busy volume @NUMBER:system.openafs.volume.id@ @QSTRING:system.openafs.volume.name:()@ in cell @ESTRING:system.openafs.cell:@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="kernel">kernel: afs: Waiting for busy volume 1936785927 (user.tguillem) in cell in2p3.fr</test_message>
+					<test_values>
+						<test_value name="system.openafs.volume.id">1936785927</test_value>
+						<test_value name="system.openafs.volume.name">user.tguillem</test_value>
+						<test_value name="system.openafs.cell">in2p3.fr</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<tags>
+				<tag>alert</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+<ruleset name='pam_afs' id='f9ed3dd4-9e65-4bd8-afea-a62e5181bc1e'>
+	<patterns>
+		<pattern>pam_afs</pattern>
+	</patterns>
+	<rules>
+		<rule provider="wernli@in2p3.fr" id="aa330817-4f24-43b3-945f-d0aa9763f2ef" class="system">
+			<patterns>
+				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ user doesn't exist</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="pam_afs">AFS Authentication failed for user user. user doesn't exist</test_message>
+					<test_values>
+						<test_value name="usracct.username">user</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="secevt.verdict">REJECT</value>
+				<value name="usracct.type">login</value>
+				<value name="usracct.application">$PROGRAM</value>
+			</values>
+			<tags>
+				<tag>usracct</tag><tag>secevt</tag><tag>openafs</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='5f4da756-91c7-4d13-828b-cff4bed16d3c' class='system'>
+			<patterns>
+				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ password was incorrect </pattern>
+				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ password was incorrect</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="pam_afs">AFS Authentication failed for user sukhotin. password was incorrect </test_message>
+					<test_values>
+						<test_value name="usracct.username">sukhotin</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="secevt.verdict">REJECT</value>
+				<value name="usracct.type">login</value>
+				<value name="usracct.application">$PROGRAM</value>
+			</values>
+			<tags>
+				<tag>usracct</tag><tag>secevt</tag><tag>openafs</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='c34a8fcb-2522-4345-922c-d4ffaf8067b8'
+			class='system'>
+			<patterns>
+				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ password has expired (KAPWEXPIRED)</pattern>
+				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ password has expired (KAPWEXPIRED) </pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="pam_afs">AFS Authentication failed for user robstark. password has expired (KAPWEXPIRED) </test_message>
+					<test_values>
+						<test_value name="usracct.username">robstark</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="secevt.verdict">REJECT</value>
+				<value name="usracct.type">login</value>
+				<value name="usracct.application">$PROGRAM</value>
+			</values>
+			<tags>
+				<tag>usracct</tag><tag>secevt</tag><tag>openafs</tag><tag>system.openafs.kapwexpired</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='dd6ac7f3-a5d7-47d9-833b-ceba337268ef'
+			class='system'>
+			<patterns>
+				<pattern>AFS Authentication failed for user @ESTRING:usracct.username:.@ ID is locked - see your system admin (KALOCKED) </pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="pam_afs">AFS Authentication failed for user skywalker. ID is locked - see your system admin (KALOCKED) </test_message>
+					<test_values>
+						<test_value name="usracct.username">skywalker</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name="secevt.verdict">REJECT</value>
+				<value name="usracct.type">login</value>
+				<value name="usracct.application">$PROGRAM</value>
+			</values>
+			<tags>
+				<tag>usracct</tag><tag>secevt</tag><tag>openafs</tag><tag>system.openafs.kalocked</tag>
+			</tags>
+		</rule>
+	</rules>
+</ruleset>
+</patterndb>
+
+<!-- vim:ft=xml:background=dark
+		 -->
