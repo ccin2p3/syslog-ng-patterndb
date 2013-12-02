@@ -18,8 +18,8 @@
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.dst_email">some.folk@some.host.tld</test_value>
-						<test_value name="appacct.delay_duration">4</test_value>
-						<test_value name="appacct.xdelay_duration">0</test_value>
+						<test_value name="appacct.delay_dur">4</test_value>
+						<test_value name="appacct.xdelay_dur">0</test_value>
 						<test_value name="appacct.mailer">smtp</test_value>
 						<test_value name="appacct.pri">132749</test_value>
 						<test_value name="appacct.relay_host">mailrelay.host.tld</test_value>
@@ -31,9 +31,10 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.name">sendmail</value>
-				<value name="appacct.delay_duration">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
-				<value name="appacct.xdelay_duration">$(+ $(+ $(* ${tmp.xdelay_hh} 3600) $(* ${tmp.xdelay_mm} 60)) ${tmp.xdelay_ss})</value>
+				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
+				<value name="appacct.xdelay_dur">$(+ $(+ $(* ${tmp.xdelay_hh} 3600) $(* ${tmp.xdelay_mm} 60)) ${tmp.xdelay_ss})</value>
 			</values>
 			<tags>
 				<tag>mail</tag>
@@ -51,7 +52,7 @@
 					                context->score, context->threshold, elapsed, context->site, interface);
 					           -->
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter add: header: X-Scan-SPAM: @ESTRING:appacct.verdict:,@ score=@ESTRING:appacct.score_num:/@@ESTRING:appacct.thresh_num:,@ scanned in @ESTRING:appacct.elapsed_duration:sec@ at @ESTRING:appacct.site_host: @(@QSTRING:appacct.site_ip:[]@)\n\tby smf-spamd @ESTRING:appacct.ver: @- @ANYSTRING:appacct.url@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ Milter add: header: X-Scan-SPAM: @ESTRING:appacct.verdict:,@ score=@ESTRING:appacct.score_num:/@@ESTRING:appacct.thresh_num:,@ scanned in @ESTRING:appacct.elapsed_dur:sec@ at @ESTRING:appacct.site_host: @(@QSTRING:appacct.site_ip:[]@)\n\tby smf-spamd @ESTRING:appacct.ver: @- @ANYSTRING:appacct.url@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -61,7 +62,7 @@
 						<test_value name="appacct.verdict">No</test_value>
 						<test_value name="appacct.score_num">-0.7</test_value>
 						<test_value name="appacct.thresh_num">5.0</test_value>
-						<test_value name="appacct.elapsed_duration">3.374</test_value>
+						<test_value name="appacct.elapsed_dur">3.374</test_value>
 						<test_value name="appacct.site_host">spamd.example.com</test_value>
 						<test_value name="appacct.site_ip">10.1.6.1</test_value>
 						<test_value name="appacct.ver">v1.3.0</test_value>
@@ -70,6 +71,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.name">sendmail</value>
 				<value name="appacct.rsclass">spam</value>
 			</values>
@@ -104,6 +106,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.name">clamav-milter</value>
 				<value name="appacct.rsclass">virus</value>
 			</values>
@@ -131,6 +134,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.rsclass">virus</value>
 			</values>
 			<tags>
@@ -167,6 +171,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.rsclass">greylist</value>
 				<value name="appacct.status">Whitelist</value>
 			</values>
@@ -190,14 +195,15 @@
 						<test_value name="appacct.name">greylist</test_value>
 						<test_value name="appacct.site_host">ccpntc20.in2p3.fr</test_value>
 						<test_value name="appacct.site_ip">134.158.69.180</test_value>
-						<test_value name="appacct.delay_duration">1712</test_value>
+						<test_value name="appacct.delay_dur">1712</test_value>
 					</test_values>
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.rsclass">greylist</value>
 				<value name="appacct.status">Delayed</value>
-				<value name="appacct.delay_duration">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
+				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
 			</values>
 			<tags>
 				<tag>mail</tag>
@@ -230,6 +236,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.name">sendmail</value>
 			</values>
 			<tags>
@@ -318,6 +325,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.class">init</value>
 				<value name="appacct.status">Success</value>
 			</values>
@@ -342,6 +350,7 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.name">sendmail</value>
 				<value name="appacct.class">connect</value>
 			</values>
@@ -373,7 +382,7 @@
 						<test_value name="flowevt.src_ip">178.248.184.40</test_value>
 						<test_value name="appacct.from_email">p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com</test_value>
 						<test_value name="appacct.rcpt_email">briancon@csnsm.in2p3.fr</test_value>
-						<test_value name="appacct.whitelist_duration">345600</test_value>
+						<test_value name="appacct.whitelist_dur">345600</test_value>
 						<test_value name="tmp.delay_hh">96</test_value>
 						<test_value name="tmp.delay_mm">00</test_value>
 						<test_value name="tmp.delay_ss">00</test_value>
@@ -381,8 +390,9 @@
 				</example>
 			</examples>
 			<values>
+				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
 				<value name="appacct.name">greylist</value>
-				<value name="appacct.whitelist_duration">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
+				<value name="appacct.whitelist_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
 			</values>
 			<tags>
 				<tag>mail</tag>
