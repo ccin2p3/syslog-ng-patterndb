@@ -31,7 +31,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">sendmail</value>
 				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
 				<value name="appacct.xdelay_dur">$(+ $(+ $(* ${tmp.xdelay_hh} 3600) $(* ${tmp.xdelay_mm} 60)) ${tmp.xdelay_ss})</value>
@@ -71,7 +71,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">sendmail</value>
 				<value name="appacct.rsclass">spam</value>
 			</values>
@@ -106,7 +106,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">clamav-milter</value>
 				<value name="appacct.rsclass">virus</value>
 			</values>
@@ -134,7 +134,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.rsclass">virus</value>
 			</values>
 			<tags>
@@ -171,7 +171,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.rsclass">greylist</value>
 				<value name="appacct.status">Whitelist</value>
 			</values>
@@ -200,7 +200,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.rsclass">greylist</value>
 				<value name="appacct.status">Delayed</value>
 				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
@@ -236,7 +236,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">sendmail</value>
 			</values>
 			<tags>
@@ -325,7 +325,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.class">init</value>
 				<value name="appacct.status">Success</value>
 			</values>
@@ -350,7 +350,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">sendmail</value>
 				<value name="appacct.class">connect</value>
 			</values>
@@ -390,7 +390,7 @@
 				</example>
 			</examples>
 			<values>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">greylist</value>
 				<value name="appacct.whitelist_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
 			</values>

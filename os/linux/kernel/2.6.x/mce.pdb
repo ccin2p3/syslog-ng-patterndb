@@ -25,7 +25,7 @@
 				<value name="appacct.name">mcelog</value>
 				<value name="appacct.rsclass">offlining</value>
 				<value name="appacct.rsid">${appacct.page}</value>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 			</values>
 			<tags>
 				<tag>appacct</tag>
@@ -55,7 +55,7 @@
 			<values>
 				<value name="appacct.name">mcelog</value>
 				<value name="appacct.rsclass">offlining</value>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 			</values>
 			<tags>
 				<tag>appacct</tag>
@@ -92,7 +92,7 @@
 			<values>
 				<value name="appacct.name">mcelog</value>
 				<value name="appacct.rsclass">offlining</value>
-				<value name=".classifier.context_length">$CONTEXT_LENGTH</value>
+				<value name=".classifier.context_len">$(context-length)</value>
 			</values>
 			<tags>
 				<tag>appacct</tag>
