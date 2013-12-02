@@ -216,6 +216,7 @@
 			context-scope='host'>
 			<patterns>
 				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -232,6 +233,21 @@
 						<test_value name="appacct.daemon">MTA</test_value>
 						<test_value name="appacct.relay_host">evo1mta2a40.emstechnology2.net</test_value>
 						<test_value name="appacct.relay_ip">178.248.184.40</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="sm-mta">rB2L4SGj025936: from=&lt;skrill@news.skrill.com&gt;, size=0, class=0, nrcpts=0, bodytype=8BITMIME, proto=ESMTP, daemon=MTA, relay=omp.news.skrill.com [12.130.139.75]</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B2L4SGj025936</test_value>
+						<test_value name="appacct.from_email">skrill@news.skrill.com</test_value>
+						<test_value name="appacct.size_num">0</test_value>
+						<test_value name="appacct.class_num">0</test_value>
+						<test_value name="appacct.nrcpts_num">0</test_value>
+						<test_value name="appacct.bodytype">8BITMIME</test_value>
+						<test_value name="appacct.proto">ESMTP</test_value>
+						<test_value name="appacct.daemon">MTA</test_value>
+						<test_value name="appacct.relay_host">omp.news.skrill.com</test_value>
+						<test_value name="appacct.relay_ip">12.130.139.75</test_value>
 					</test_values>
 				</example>
 			</examples>
@@ -289,6 +305,9 @@
 					</test_values>
 				</example>
 			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
 			<tags>
 				<tag>mail</tag>
 				<tag>appacct</tag>
@@ -404,6 +423,9 @@
 </ruleset>
 
 <!-- TODO
+
+rule 'rB2L9iLV027541: milter=greylist, action=rcpt, reject=451 4.7.1 Greylisting in action, please come back in 00:15:00'
+
 <ruleset name='spamd' id='ee2c18d9-de9a-4fc6-b98b-78a4c56b50d8'>
 	<patterns>
 		<pattern>spamd</pattern>
