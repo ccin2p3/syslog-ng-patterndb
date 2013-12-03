@@ -10,17 +10,33 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host:. @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host:. @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="sm-mta">rB29QHUv002682: to=&lt;some.folk@some.host.tld&gt;, delay=00:00:04, xdelay=00:00:00, mailer=smtp, pri=132749, relay=mailrelay.host.tld [10.0.0.12], dsn=2.0.0, stat=Sent (Ok: queued as 10F371C0060)</test_message>
+					<test_message program="sm-mta">rB3Ao0EQ030569: to=&lt;some.folk@here.tld&gt;,&lt;other.folk@there.tld&gt;, delay=00:00:01, xdelay=00:00:01, mailer=esmtp, pri=347393, relay=somerelay.tld. [10.0.0.1], dsn=2.0.0, stat=Sent (&lt;DE4593FE-4689-4422-AB06-9EF6F5EA35CF@here.tld&gt; [InternalId=2919471] Queued mail for delivery)</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B3Ao0EQ030569</test_value>
+						<test_value name="appacct.dst_email">&lt;some.folk@here.tld&gt;,&lt;other.folk@there.tld&gt;</test_value>
+						<test_value name="appacct.delay_dur">1</test_value>
+						<test_value name="appacct.xdelay_dur">1</test_value>
+						<test_value name="appacct.mailer">esmtp</test_value>
+						<test_value name="appacct.pri">347393</test_value>
+						<test_value name="appacct.relay_host">somerelay.tld</test_value>
+						<test_value name="appacct.relay_ip">10.0.0.1</test_value>
+						<test_value name="appacct.dsn">2.0.0</test_value>
+						<test_value name="appacct.status">Sent</test_value>
+						<test_value name="details">(&lt;DE4593FE-4689-4422-AB06-9EF6F5EA35CF@here.tld&gt; [InternalId=2919471] Queued mail for delivery)</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="sm-mta">rB29QHUv002682: to=&lt;some.folk@some.host.tld&gt;, delay=00:00:04, xdelay=00:00:00, mailer=smtp, pri=132749, relay=mailrelay.host.tld. [10.0.0.12], dsn=2.0.0, stat=Sent (Ok: queued as 10F371C0060)</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
-						<test_value name="appacct.dst_email">some.folk@some.host.tld</test_value>
+						<test_value name="appacct.dst_email">&lt;some.folk@some.host.tld&gt;</test_value>
 						<test_value name="appacct.delay_dur">4</test_value>
 						<test_value name="appacct.xdelay_dur">0</test_value>
 						<test_value name="appacct.mailer">smtp</test_value>
@@ -183,6 +199,35 @@
 				<tag>appacct</tag>
 			</tags>
 		</rule>
+		<rule provider="wernli@in2p3.fr" id='927b85dd-604f-4735-bf02-e1ece26961c0'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ Milter: to=@ESTRING:appacct.rcpt_email:, reject=@451 4.7.1 Greylisting in action, please come back in @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@NUMBER:tmp.delay_ss@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB3Anxko004014: Milter: to=&lt;me@here.to&gt;, reject=451 4.7.1 Greylisting in action, please come back in 00:14:59</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B3Anxko004014</test_value>
+						<test_value name="appacct.name">greylist</test_value>
+						<test_value name="appacct.rcpt_email">&lt;me@here.to&gt;</test_value>
+						<test_value name="appacct.delay_dur">899</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+				<value name="appacct.name">greylist</value>
+				<value name="appacct.status">Delayed</value>
+				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
 		<rule provider="wernli@in2p3.fr" id='c06b80e2-9302-43c8-814d-4cc525a96431'
 			class='mail'
 			context-id='${appacct.rsid}'
@@ -218,21 +263,21 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
 			</patterns>
 			<examples>
 				<example>
 					<test_message program="sm-mta">rB29QHUv002682: from=&lt;p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com&gt;, size=12749, class=0, nrcpts=1, msgid=&lt;e652973fae3a4f90bb9295d85ccd638f@as.tv-du-jour.com&gt;, bodytype=8BITMIME, proto=ESMTP, daemon=MTA, relay=evo1mta2a40.emstechnology2.net [178.248.184.40]</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
-						<test_value name="appacct.from_email">p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com</test_value>
+						<test_value name="appacct.from_email">&lt;p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com&gt;</test_value>
 						<test_value name="appacct.size_num">12749</test_value>
 						<test_value name="appacct.class_num">0</test_value>
 						<test_value name="appacct.nrcpts_num">1</test_value>
@@ -248,7 +293,7 @@
 					<test_message program="sm-mta">rB2L4SGj025936: from=&lt;skrill@news.skrill.com&gt;, size=0, class=0, nrcpts=0, bodytype=8BITMIME, proto=ESMTP, daemon=MTA, relay=omp.news.skrill.com [12.130.139.75]</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B2L4SGj025936</test_value>
-						<test_value name="appacct.from_email">skrill@news.skrill.com</test_value>
+						<test_value name="appacct.from_email">&lt;skrill@news.skrill.com&gt;</test_value>
 						<test_value name="appacct.size_num">0</test_value>
 						<test_value name="appacct.class_num">0</test_value>
 						<test_value name="appacct.nrcpts_num">0</test_value>
@@ -386,6 +431,61 @@
 				<tag>appacct</tag>
 			</tags>
 		</rule>
+		<rule provider="wernli@in2p3.fr" id='7fcb5c70-a57e-488e-b674-be02620c9555'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ Milter @QSTRING:appacct.name:()@: @ANYSTRING:details@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB3Ao0EQ030569: Milter (clamav): local socket name /var/milter/clamav/milter-clamav.sock unsafe</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B3Ao0EQ030569</test_value>
+						<test_value name="appacct.name">clamav</test_value>
+					</test_values>
+				</example>
+				<example>
+					<test_message program="sm-mta">rB3Ao0EQ030569: Milter (clamav): to error state</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B3Ao0EQ030569</test_value>
+						<test_value name="appacct.name">clamav</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='2c80f608-bf17-4d03-a9bc-90cf8be75d2d'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ &lt;@EMAIL:appacct.email@&gt;@ANYSTRING:details@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB3AnxAC005237: &lt;www-data@pff.com&gt;... User unknown</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B3AnxAC005237</test_value>
+						<test_value name="appacct.email">www-data@pff.com</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
 		<rule provider="wernli@in2p3.fr" id='1d790b10-ac4f-4490-b99a-f9d6c16dc55a'
 			class='mail'
 			context-id='${appacct.rsid}'
@@ -452,6 +552,32 @@
 					<test_values>
 						<test_value name="appacct.rsid">B38DWPo018227</test_value>
 						<test_value name="appacct.site_host">mysmtp.mydomain.tld</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='3331b06e-f95e-41d2-8052-2d8bc6dde2bf'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ ruleset=@ESTRING:appacct.ruleset:,@ arg1=@ESTRING:appacct.arg1:,@ relay=@QSTRING:appacct.relay_ip:[]@, reject=@ANYSTRING:details@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB3AnxDO004013: ruleset=check_rcpt, arg1=&lt;some.folk@mydomain.tld&gt;, relay=[219.138.163.34], reject=553 5.1.8 &lt;some.folk@mydomain.tld&gt;... Domain of sender address beibei-conf@beibei-conf.org does not exist</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B3AnxDO004013</test_value>
+						<test_value name="appacct.ruleset">check_rcpt</test_value>
+						<test_value name="appacct.arg1">&lt;some.folk@mydomain.tld&gt;</test_value>
+						<test_value name="appacct.relay_ip">219.138.163.34</test_value>
 					</test_values>
 				</example>
 			</examples>
