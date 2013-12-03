@@ -11,6 +11,9 @@
 			context-scope='host'>
 			<patterns>
 				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ to=&lt;@EMAIL:appacct.dst_email@&gt;, delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -124,12 +127,12 @@
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="sm-mta">rB29QHUv002682: Milter insert (1): header: X-Virus-Scanned: clamav-milter 0.97.6 at ccpntc21</test_message>
+					<test_message program="sm-mta">rB29QHUv002682: Milter insert (1): header: X-Virus-Scanned: clamav-milter 0.97.6 at myserver</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.name">clamav-milter</test_value>
 						<test_value name="appacct.ver">0.97.6</test_value>
-						<test_value name="appacct.site_host">ccpntc21</test_value>
+						<test_value name="appacct.site_host">myserver</test_value>
 					</test_values>
 				</example>
 			</examples>
@@ -152,21 +155,21 @@
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="sm-mta">rB2BHm1C004432: Milter add: header: X-Greylist: Sender DNS name whitelisted, not delayed by milter-greylist-4.2.3 (ccpntc21.in2p3.fr [134.158.69.181]); Mon, 02 Dec 2013 12:17:48 +0100 (CET)</test_message>
+					<test_message program="sm-mta">rB2BHm1C004432: Milter add: header: X-Greylist: Sender DNS name whitelisted, not delayed by milter-greylist-4.2.3 (mysmtp.mydomain.tld [1.2.3.4]); Mon, 02 Dec 2013 12:17:48 +0100 (CET)</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B2BHm1C004432</test_value>
 						<test_value name="appacct.name">greylist</test_value>
-						<test_value name="appacct.site_host">ccpntc21.in2p3.fr</test_value>
-						<test_value name="appacct.site_ip">134.158.69.181</test_value>
+						<test_value name="appacct.site_host">mysmtp.mydomain.tld</test_value>
+						<test_value name="appacct.site_ip">1.2.3.4</test_value>
 					</test_values>
 				</example>
 				<example>
-					<test_message program="sm-mta">rB29QHUv002682: Milter add: header: X-Greylist: IP, sender and recipient auto-whitelisted, not delayed by milter-greylist-4.2.3 (ccpntc21.in2p3.fr [134.158.69.181]); Mon, 02 Dec 2013 10:26:17 +0100 (CET)</test_message>
+					<test_message program="sm-mta">rB29QHUv002682: Milter add: header: X-Greylist: IP, sender and recipient auto-whitelisted, not delayed by milter-greylist-4.2.3 (mysmtp.mydomain.tld [1.2.3.4]); Mon, 02 Dec 2013 10:26:17 +0100 (CET)</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.name">greylist</test_value>
-						<test_value name="appacct.site_host">ccpntc21.in2p3.fr</test_value>
-						<test_value name="appacct.site_ip">134.158.69.181</test_value>
+						<test_value name="appacct.site_host">mysmtp.mydomain.tld</test_value>
+						<test_value name="appacct.site_ip">1.2.3.4</test_value>
 					</test_values>
 				</example>
 			</examples>
@@ -189,12 +192,12 @@
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="sm-mta">rB2BHdAt028367: Milter add: header: X-Greylist: Delayed for 00:28:32 by milter-greylist-4.2.3 (ccpntc20.in2p3.fr [134.158.69.180]); Mon, 02 Dec 2013 12:17:41 +0100 (CET)</test_message>
+					<test_message program="sm-mta">rB2BHdAt028367: Milter add: header: X-Greylist: Delayed for 00:28:32 by milter-greylist-4.2.3 (mysmtp.mydomain.tld [10.0.0.10]); Mon, 02 Dec 2013 12:17:41 +0100 (CET)</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B2BHdAt028367</test_value>
 						<test_value name="appacct.name">greylist</test_value>
-						<test_value name="appacct.site_host">ccpntc20.in2p3.fr</test_value>
-						<test_value name="appacct.site_ip">134.158.69.180</test_value>
+						<test_value name="appacct.site_host">mysmtp.mydomain.tld</test_value>
+						<test_value name="appacct.site_ip">10.0.0.10</test_value>
 						<test_value name="appacct.delay_dur">1712</test_value>
 					</test_values>
 				</example>
@@ -217,6 +220,12 @@
 			<patterns>
 				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
 				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ from=&lt;@EMAIL:appacct.from_email@&gt;, size=@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -265,7 +274,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ milter=@ESTRING:appacct.name:,@ action=@ESTRING:appacct.class:,@ @ANYSTRING:details@</pattern>
+				<pattern>r@ESTRING:appacct.rsid::@ milter=@ESTRING:appacct.name:,@ action=@ESTRING:appacct.rsclass:,@ @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -273,7 +282,7 @@
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.name">smf-spamd</test_value>
-						<test_value name="appacct.class">eoh</test_value>
+						<test_value name="appacct.rsclass">eoh</test_value>
 						<test_value name="details">continue</test_value>
 					</test_values>
 				</example>
@@ -282,7 +291,7 @@
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.name">milter-regex</test_value>
-						<test_value name="appacct.class">rcpt</test_value>
+						<test_value name="appacct.rsclass">rcpt</test_value>
 						<test_value name="details">continue</test_value>
 					</test_values>
 				</example>
@@ -291,7 +300,7 @@
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.name">smf-spamd</test_value>
-						<test_value name="appacct.class">rcpt</test_value>
+						<test_value name="appacct.rsclass">rcpt</test_value>
 						<test_value name="details">continue</test_value>
 					</test_values>
 				</example>
@@ -300,8 +309,32 @@
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="appacct.name">clamav</test_value>
-						<test_value name="appacct.class">rcpt</test_value>
+						<test_value name="appacct.rsclass">rcpt</test_value>
 						<test_value name="details">continue</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='f033748a-66b2-437c-a66d-81a85ab9924c'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ Milter @ESTRING:appacct.rsclass::@ message</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB38DaJd031603: Milter accept: message</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B38DaJd031603</test_value>
+						<test_value name="appacct.rsclass">accept</test_value>
 					</test_values>
 				</example>
 			</examples>
@@ -345,7 +378,7 @@
 			</examples>
 			<values>
 				<value name=".classifier.context_len">$(context-length)</value>
-				<value name="appacct.class">init</value>
+				<value name="appacct.rsclass">init</value>
 				<value name="appacct.status">Success</value>
 			</values>
 			<tags>
@@ -371,7 +404,111 @@
 			<values>
 				<value name=".classifier.context_len">$(context-length)</value>
 				<value name="appacct.name">sendmail</value>
-				<value name="appacct.class">connect</value>
+				<value name="appacct.rsclass">connect</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='25de9fbd-eef6-4388-ae57-b24c9ee45a8f'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ done; delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ ntries=@NUMBER:appacct.ntries_num@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB38DaJd031603: done; delay=00:00:00, ntries=1</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B38DaJd031603</test_value>
+						<test_value name="appacct.ntries_num">1</test_value>
+						<test_value name="appacct.delay_dur">0</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+				<value name="appacct.status">Done</value>
+				<value name="appacct.name">$PROGRAM</value>
+				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='cfc292bd-9382-4cbe-a22e-f0984bc550c8'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ SMTP outgoing connect on @HOSTNAME:appacct.site_host@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rB38DWPo018227: SMTP outgoing connect on mysmtp.mydomain.tld</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">B38DWPo018227</test_value>
+						<test_value name="appacct.site_host">mysmtp.mydomain.tld</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='f1419453-c826-4da7-8bd0-dc861d5a007e'
+			class='mail'
+			context-id='${appacct.rsid}'
+			context-scope='host'>
+			<patterns>
+				<pattern>r@ESTRING:appacct.rsid::@ SYSERR@QSTRING:usracct.username:()@: timeout writing message to @ESTRING:flowevt.dst_host:.:@ @ANYSTRING:details@</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">rAS83fFn030505: SYSERR(root): timeout writing message to mxbr2.oemts.net.: Broken pipe</test_message>
+					<test_values>
+						<test_value name="appacct.rsid">AS83fFn030505</test_value>
+						<test_value name="usracct.username">root</test_value>
+						<test_value name="flowevt.dst_host">mxbr2.oemts.net</test_value>
+						<test_value name="details">Broken pipe</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
+			</values>
+			<tags>
+				<tag>mail</tag>
+				<tag>appacct</tag>
+				<tag>usracct</tag>
+				<tag>flowevt</tag>
+			</tags>
+		</rule>
+		<rule provider="wernli@in2p3.fr" id='9a2dd11c-782e-478d-a4fd-09533c28c952'
+			class='mail'
+			context-id='${appacct.site_host}'
+			context-scope='process'>
+			<patterns>
+				<pattern>NOQUEUE: connect from @HOSTNAME:appacct.site_host@ [@IPvANY:appacct.site_ip@]</pattern>
+			</patterns>
+			<examples>
+				<example>
+					<test_message program="sm-mta">NOQUEUE: connect from site.example.com [10.0.0.123]</test_message>
+					<test_values>
+						<test_value name="appacct.site_host">site.example.com</test_value>
+						<test_value name="appacct.site_ip">10.0.0.123</test_value>
+					</test_values>
+				</example>
+			</examples>
+			<values>
+				<value name=".classifier.context_len">$(context-length)</value>
 			</values>
 			<tags>
 				<tag>mail</tag>
@@ -395,12 +532,12 @@
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="milter-greylist">rB29QHUv002682: addr 178.248.184.40 from &lt;p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com&gt; rcpt &lt;briancon@csnsm.in2p3.fr&gt;: autowhitelisted for more 96:00:00</test_message>
+					<test_message program="milter-greylist">rB29QHUv002682: addr 178.248.184.40 from &lt;p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com&gt; rcpt &lt;some.folk@mydomain.tld&gt;: autowhitelisted for more 96:00:00</test_message>
 					<test_values>
 						<test_value name="appacct.rsid">B29QHUv002682</test_value>
 						<test_value name="flowevt.src_ip">178.248.184.40</test_value>
 						<test_value name="appacct.from_email">p-a4vc9984b7gkrdu3kevfxwwdssmbhw6s8x4cvav44e7h6pa9jk6pmhq-4BA99@as.tv-du-jour.com</test_value>
-						<test_value name="appacct.rcpt_email">briancon@csnsm.in2p3.fr</test_value>
+						<test_value name="appacct.rcpt_email">some.folk@mydomain.tld</test_value>
 						<test_value name="appacct.whitelist_dur">345600</test_value>
 						<test_value name="tmp.delay_hh">96</test_value>
 						<test_value name="tmp.delay_mm">00</test_value>

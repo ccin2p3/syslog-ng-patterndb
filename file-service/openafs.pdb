@@ -146,11 +146,11 @@
 			</patterns>
 			<examples>
 				<example>
-					<test_message program="kernel">kernel: afs: Waiting for busy volume 1936785927 (user.tguillem) in cell in2p3.fr</test_message>
+					<test_message program="kernel">kernel: afs: Waiting for busy volume 1936785927 (foo.bar) in cell my.cell</test_message>
 					<test_values>
 						<test_value name="system.openafs.volume.id">1936785927</test_value>
-						<test_value name="system.openafs.volume.name">user.tguillem</test_value>
-						<test_value name="system.openafs.cell">in2p3.fr</test_value>
+						<test_value name="system.openafs.volume.name">foo.bar</test_value>
+						<test_value name="system.openafs.cell">my.cell</test_value>
 					</test_values>
 				</example>
 			</examples>
