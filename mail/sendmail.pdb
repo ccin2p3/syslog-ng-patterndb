@@ -10,10 +10,10 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host:. @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host:. @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@, dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ to=@ESTRING:appacct.dst_email:, @delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ xdelay=@ESTRING:tmp.xdelay_hh::@@ESTRING:tmp.xdelay_mm::@@ESTRING:tmp.xdelay_ss:,@ mailer=@ESTRING:appacct.mailer:,@ pri=@ESTRING:appacct.pri:,@ dsn=@ESTRING:appacct.dsn:,@ stat=@ANYSTRING:appacct.status@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -25,7 +25,7 @@
 						<test_value name="appacct.xdelay_dur">1</test_value>
 						<test_value name="appacct.mailer">esmtp</test_value>
 						<test_value name="appacct.pri">347393</test_value>
-						<test_value name="appacct.relay_host">somerelay.tld</test_value>
+						<test_value name="appacct.relay_host">somerelay.tld.</test_value>
 						<test_value name="appacct.relay_ip">10.0.0.1</test_value>
 						<test_value name="appacct.dsn">2.0.0</test_value>
 						<test_value name="appacct.status">Sent</test_value>
@@ -41,7 +41,7 @@
 						<test_value name="appacct.xdelay_dur">0</test_value>
 						<test_value name="appacct.mailer">smtp</test_value>
 						<test_value name="appacct.pri">132749</test_value>
-						<test_value name="appacct.relay_host">mailrelay.host.tld</test_value>
+						<test_value name="appacct.relay_host">mailrelay.host.tld.</test_value>
 						<test_value name="appacct.relay_ip">10.0.0.12</test_value>
 						<test_value name="appacct.dsn">2.0.0</test_value>
 						<test_value name="appacct.status">Sent</test_value>
@@ -54,6 +54,7 @@
 				<value name="appacct.name">sendmail</value>
 				<value name="appacct.delay_dur">$(+ $(+ $(* ${tmp.delay_hh} 3600) $(* ${tmp.delay_mm} 60)) ${tmp.delay_ss})</value>
 				<value name="appacct.xdelay_dur">$(+ $(+ $(* ${tmp.xdelay_hh} 3600) $(* ${tmp.xdelay_mm} 60)) ${tmp.xdelay_ss})</value>
+				<value name="appacct.relay_country">$(geoip ${appacct.relay_host})</value>
 			</values>
 			<tags>
 				<tag>mail</tag>
@@ -71,7 +72,7 @@
 					                context->score, context->threshold, elapsed, context->site, interface);
 					           -->
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter add: header: X-Scan-SPAM: @ESTRING:appacct.verdict:,@ score=@ESTRING:appacct.score_num:/@@ESTRING:appacct.thresh_num:,@ scanned in @ESTRING:appacct.elapsed_dur:sec@ at @ESTRING:appacct.site_host: @(@QSTRING:appacct.site_ip:[]@)\n\tby smf-spamd @ESTRING:appacct.ver: @- @ANYSTRING:appacct.url@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter add: header: X-Scan-SPAM: @ESTRING:appacct.verdict:,@ score=@ESTRING:appacct.score_num:/@@ESTRING:appacct.thresh_num:,@ scanned in @ESTRING:appacct.elapsed_dur:sec@ at @ESTRING:appacct.site_host: @(@QSTRING:appacct.site_ip:[]@)\n\tby smf-spamd @ESTRING:appacct.ver: @- @ANYSTRING:appacct.url@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -104,8 +105,8 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter insert @QSTRING::()@: header: X-Virus-Status: @ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter insert @QSTRING::()@: header: X-Virus-Status: @ANYSTRING:appacct.status@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter insert @QSTRING::()@: header: X-Virus-Status: @ESTRING:appacct.status: @@ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter insert @QSTRING::()@: header: X-Virus-Status: @ANYSTRING:appacct.status@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -139,7 +140,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter insert @QSTRING::()@: header: X-Virus-Scanned: @ESTRING:appacct.name: @@ESTRING:appacct.ver: @at @ANYSTRING:appacct.site_host@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter insert @QSTRING::()@: header: X-Virus-Scanned: @ESTRING:appacct.name: @@ESTRING:appacct.ver: @at @ANYSTRING:appacct.site_host@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -166,8 +167,8 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter add: header: X-Greylist: IP, sender and recipient auto-whitelisted, not delayed by @ESTRING::-@@ESTRING:appacct.name:-@@ESTRING:appacct.ver: @(@HOSTNAME:appacct.site_host@ @QSTRING:appacct.site_ip:[]@); @ANYSTRING@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter add: header: X-Greylist: Sender DNS name whitelisted, not delayed by @ESTRING::-@@ESTRING:appacct.name:-@@ESTRING:appacct.ver: @(@HOSTNAME:appacct.site_host@ @QSTRING:appacct.site_ip:[]@); @ANYSTRING@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter add: header: X-Greylist: IP, sender and recipient auto-whitelisted, not delayed by @ESTRING::-@@ESTRING:appacct.name:-@@ESTRING:appacct.ver: @(@HOSTNAME:appacct.site_host@ @QSTRING:appacct.site_ip:[]@); @ANYSTRING@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter add: header: X-Greylist: Sender DNS name whitelisted, not delayed by @ESTRING::-@@ESTRING:appacct.name:-@@ESTRING:appacct.ver: @(@HOSTNAME:appacct.site_host@ @QSTRING:appacct.site_ip:[]@); @ANYSTRING@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -204,7 +205,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter: to=@ESTRING:appacct.rcpt_email:, reject=@451 4.7.1 Greylisting in action, please come back in @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@NUMBER:tmp.delay_ss@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter: to=@ESTRING:appacct.rcpt_email:, reject=@451 4.7.1 Greylisting in action, please come back in @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@NUMBER:tmp.delay_ss@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -233,7 +234,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter add: header: X-Greylist: Delayed for @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss: @by @ESTRING::-@@ESTRING:appacct.name:-@@ESTRING:appacct.ver: @(@HOSTNAME:appacct.site_host@ @QSTRING:appacct.site_ip:[]@); @ANYSTRING@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter add: header: X-Greylist: Delayed for @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss: @by @ESTRING::-@@ESTRING:appacct.name:-@@ESTRING:appacct.ver: @(@HOSTNAME:appacct.site_host@ @QSTRING:appacct.site_ip:[]@); @ANYSTRING@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -263,14 +264,14 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
-				<pattern>r@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@ESTRING:appacct.relay_host: @@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ bodytype=@ESTRING:appacct.bodytype:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ msgid=@ESTRING:appacct.msgid:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ from=@ESTRING:appacct.from_email:, size=@@ESTRING:appacct.size_num:,@ class=@ESTRING:appacct.class_num:,@ nrcpts=@ESTRING:appacct.nrcpts_num:,@ proto=@ESTRING:appacct.proto:,@ daemon=@ESTRING:appacct.daemon:,@ relay=@QSTRING:appacct.relay_ip:[]@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -319,7 +320,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ milter=@ESTRING:appacct.name:,@ action=@ESTRING:appacct.rsclass:,@ @ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ milter=@ESTRING:appacct.name:,@ action=@ESTRING:appacct.rsclass:,@ @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -372,7 +373,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter @ESTRING:appacct.rsclass::@ message</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter @ESTRING:appacct.rsclass::@ message</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -396,7 +397,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter @QSTRING:appacct.name:()@: init success to negotiate</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter @QSTRING:appacct.name:()@: init success to negotiate</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -436,7 +437,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter @QSTRING:appacct.name:()@: @ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter @QSTRING:appacct.name:()@: @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -467,7 +468,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ &lt;@EMAIL:appacct.email@&gt;@ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ &lt;@EMAIL:appacct.email@&gt;@ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -491,7 +492,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ Milter: connect to filters</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ Milter: connect to filters</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -516,7 +517,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ done; delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ ntries=@NUMBER:appacct.ntries_num@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ done; delay=@ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@ESTRING:tmp.delay_ss:,@ ntries=@NUMBER:appacct.ntries_num@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -544,7 +545,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ SMTP outgoing connect on @HOSTNAME:appacct.site_host@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ SMTP outgoing connect on @HOSTNAME:appacct.site_host@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -568,7 +569,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ ruleset=@ESTRING:appacct.ruleset:,@ arg1=@ESTRING:appacct.arg1:,@ relay=@QSTRING:appacct.relay_ip:[]@, reject=@ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ ruleset=@ESTRING:appacct.ruleset:,@ arg1=@ESTRING:appacct.arg1:,@ relay=@QSTRING:appacct.relay_ip:[]@, reject=@ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -594,7 +595,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ SYSERR@QSTRING:usracct.username:()@: timeout writing message to @ESTRING:flowevt.dst_host:.:@ @ANYSTRING:details@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ SYSERR@QSTRING:usracct.username:()@: timeout writing message to @ESTRING:flowevt.dst_host:.:@ @ANYSTRING:details@</pattern>
 			</patterns>
 			<examples>
 				<example>
@@ -654,7 +655,7 @@
 			context-id='${appacct.rsid}'
 			context-scope='host'>
 			<patterns>
-				<pattern>r@ESTRING:appacct.rsid::@ addr @IPvANY:flowevt.src_ip@ from &lt;@EMAIL:appacct.from_email@&gt; rcpt &lt;@EMAIL:appacct.rcpt_email@&gt;: autowhitelisted for more @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@NUMBER:tmp.delay_ss@</pattern>
+				<pattern>@ESTRING:appacct.rsid::@ addr @IPvANY:flowevt.src_ip@ from &lt;@EMAIL:appacct.from_email@&gt; rcpt &lt;@EMAIL:appacct.rcpt_email@&gt;: autowhitelisted for more @ESTRING:tmp.delay_hh::@@ESTRING:tmp.delay_mm::@@NUMBER:tmp.delay_ss@</pattern>
 			</patterns>
 			<examples>
 				<example>
